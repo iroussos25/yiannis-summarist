@@ -87,6 +87,41 @@ button:disabled {
   font-weight: bold;
 }
 
+/*MODAL */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+}
+
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  position: relative;
+  min-width: 320px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
 /* NAVBAR */
 .nav {
   height: 80px;

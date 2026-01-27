@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import './global.css'
+import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Providers } from "./redux/provider";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import LoginModal from "@/components/LoginModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,14 +23,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
+    <Providers>
+      <Header/>
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
     </html>
+    <LoginModal/>
+    <Footer/>
+    </Providers>
   );
 }

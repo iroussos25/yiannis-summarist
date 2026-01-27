@@ -3,7 +3,6 @@ import './global.css'
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { BiCrown } from 'react-icons/bi';
 import { RiLeafLine } from 'react-icons/ri';
-import logo from  '../../public/logo.png'
 import landing from "../../public/landing.png"
 import Image from 'next/image';
 
@@ -11,21 +10,8 @@ export default function Home() {
   return (
     
  
-  <body>
-    <nav className="nav">
-      <div className="nav__wrapper">
-        <figure className="nav__img--mask">
-          <Image className="nav__img" src={logo} alt="logo" />
-        </figure>
-        <ul className="nav__list--wrapper">
-          <li className="nav__list nav__list--login">Login</li>
-          <li className="nav__list nav__list--mobile">About</li>
-          <li className="nav__list nav__list--mobile">Contact</li>
-          <li className="nav__list nav__list--mobile">Help</li>
-        </ul>
-      </div>
-    </nav>
-    <section id="landing">
+  <>
+       <section id="landing">
       <div className="container">
         <div className="row">
           <div className="landing__wrapper">
@@ -146,7 +132,7 @@ export default function Home() {
             </div>
             <div
               className="statistics__content--header statistics__content--header-second"
-            >
+              >
               <div className="statistics__heading">Expand your learning</div>
               <div className="statistics__heading">Accomplish your goals</div>
               <div className="statistics__heading">Strengthen your vitality</div>
@@ -259,88 +245,9 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <section id="footer">
-      <div className="container">
-        <div className="row">
-          <div className="footer__top--wrapper">
-            <div className="footer__block">
-              <div className="footer__link--title">Actions</div>
-              <div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Summarist Magazine</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Cancel Subscription</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Help</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Contact us</a>
-                </div>
-              </div>
-            </div>
-            <div className="footer__block">
-              <div className="footer__link--title">Useful Links</div>
-              <div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Pricing</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Summarist Business</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Gift Cards</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Authors & Publishers</a>
-                </div>
-              </div>
-            </div>
-            <div className="footer__block">
-              <div className="footer__link--title">Company</div>
-              <div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">About</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Careers</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Partners</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Code of Conduct</a>
-                </div>
-              </div>
-            </div>
-            <div className="footer__block">
-              <div className="footer__link--title">Other</div>
-              <div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Sitemap</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Legal Notice</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Terms of Service</a>
-                </div>
-                <div className="footer__link--wrapper">
-                  <a className="footer__link">Privacy Policies</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="footer__copyright--wrapper">
-            <div className="footer__copyright">
-              Copyright &copy; 2023 Summarist.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </body>
+    
+              </>
+
 
   );
 }
