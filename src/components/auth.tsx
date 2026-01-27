@@ -8,22 +8,32 @@ import { auth } from '@/lib/firebase';
 
 
 export default function Auth() {
-    
-    useEffect(() => {
+  useEffect(() => {
+    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
 
-        const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
-        ui.start('#auth__container', {
+    const uiConfig = {
+      signInSuccessUrl: '/', 
+      // Set the flow to 'popup' so it stays within your modal context
+      signInFlow: '', 
+      signInOptions: [
+        // This option prioritizes the email/password field first
+        EmailAuthProvider.PROVIDER_ID, 
+        GoogleAuthProvider.PROVIDER_ID,
+      ],
+      // Required for 2026 security standards (keep these to avoid errors)
+      tosUrl: '/terms',
+      privacyPolicyUrl: '/privacy',
+    };
 
-            signInOptions: [
-                GoogleAuthProvider.PROVIDER_ID,
-                EmailAuthProvider.PROVIDER_ID,
-            ],
-            signInSuccessUrl: '/for-you',
-        });
-               
-    }, []);
+    // Start the widget on the designated div
+    ui.start('#firebaseui-auth-container', uiConfig);
 
-    return (
-        <div id="auth__container" />
-    )
+    // Cleanup function
+    return () => {
+        ui.reset();
+    };
+
+  }, []);
+
+  return <div id="firebaseui-auth-container" />;
 }

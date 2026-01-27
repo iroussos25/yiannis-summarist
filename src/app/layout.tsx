@@ -5,6 +5,7 @@ import { Providers } from "./redux/provider";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import LoginModal from "@/components/LoginModal";
+import AuthStateListener from "@/components/AuthStateListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <Providers>
+      <AuthStateListener/>
       <Header/>
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
