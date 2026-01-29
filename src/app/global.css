@@ -6,7 +6,7 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
-:root {
+/* :root {
   --color-primary: #3a83ff; 
   --color-accent: #20ad96;
   --color-text: #333;
@@ -22,27 +22,27 @@
 }
 
 /* Ensure global input styles match the simple, clean look in the image */
-input.firebaseui-id-email, 
+/* input.firebaseui-id-email, 
 input.firebaseui-id-password {
   border: 1px solid #ccc;
   padding: 12px 16px;
   width: 100%;
   border-radius: 4px;
   margin-bottom: 10px;
-  box-sizing: border-box; /* Ensures padding doesn't widen the input */
-}
+  box-sizing: border-box; Ensures padding doesn't widen the input
+} */
 
 /* Style the final green login button (uses your existing CSS classes) */
-.firebaseui-id-submit-button {
+/* .firebaseui-id-submit-button {
     background-color: var(--color-accent) !important;
     color: white !important;
     border: none !important;
     /* You likely have .btn class in your project, you may want to apply that instead */
-}
-.firebaseui-idp-button {
+/* } */
+/* .firebaseui-idp-button {
     background-color: var(--color-primary) !important;
     color: white !important;
-}
+} */ 
 
 body {
   max-width: 100%;
@@ -124,9 +124,131 @@ button:disabled {
   font-weight: bold;
 }
 
+/* AUTHENTICATOR */
+.auth {
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  /* /* .modal-overlay { */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7); 
+    width: 100vw;
+  }
+  
+  .auth .auth__wrapper {
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+  }
+  
+  .auth__content {
+    border-radius: 8px;
+    position: fixed;
+  background-color: #fff;
+  /* max-width:  400px; */
+  height: 400px;
+  width: 300px;
+  padding: 48px 32 px 24 px;
+}
+
+.auth__title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #032b41;
+  margin-bottom: 24px;
+}
+
+.btn.guest__btn--wrapper {
+  position: relative;
+  display: flex;
+  background-color: #3a579d;
+  color: #fff;
+  justify-content: center;
+  width: 20%;
+}
+.btn.google__btn--wrapper {
+  position: relative;
+  display: flex;
+  background-color: #4285f4;
+  color: #fff;
+  justify-content: center;
+  width: 20%;
+}
+
+.guest__icon--mask {
+  background-color: transparent;
+}
+
+.google__icon--mask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  left: 2px;
+}
+
+.auth__separator {
+  display: flex;
+  align-items: center;margin: 16px 0;
+  z-index: 9999;
+}
+
+
+.auth__main--form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 9999;
+}
+
+.auth__forgot--password {
+  text-align: center;
+  color: #116be9;
+  font-weight: 300;
+  font-size: 14px;
+  width: fit-content;
+  margin: 0 auto 16px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.auth__switch--btn {
+  height: 40px;
+  text-align: center;
+  background-color: #f1f6f4;
+  color: #116be9;
+  width: 100%;
+  border-radius: 0 0 4px px;
+  font-weight: 300;
+  font-size: 16px;
+  z-index: 9999;
+  position: relative;
+}
+
+.auth__close--btn {
+position: absolute;
+top: 12px;
+right: 12px;
+display: flex;
+cursor: pointer;
+transition: opacity .2s;
+z-index: 9999;
+
+}
+
 /*MODAL */
 
-.modal-overlay {
+/* .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -157,7 +279,7 @@ button:disabled {
   cursor: pointer;
   border: none;
   background: none;
-}
+} */
 
 /* NAVBAR */
 .nav {
