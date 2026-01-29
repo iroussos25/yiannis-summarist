@@ -200,6 +200,10 @@ button:disabled {
   background-color: #3a579d !important;
 }
 
+.guest__icon--mask:hover {
+  background-color: #20ba68 !important;
+}
+
 .google__icon--mask {
   display: flex;
   align-items: center;
