@@ -171,7 +171,6 @@ button:disabled {
   background-color: #3a579d;
   color: #fff;
   justify-content: center;
-  width: 20%;
 }
 .btn.google__btn--wrapper {
   position: relative;
@@ -179,11 +178,10 @@ button:disabled {
   background-color: #4285f4;
   color: #fff;
   justify-content: center;
-  width: 20%;
 }
 
 .guest__icon--mask {
-  background-color: transparent;
+  background-color: #3a579d !important;
 }
 
 .google__icon--mask {

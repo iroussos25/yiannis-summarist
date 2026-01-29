@@ -1,3 +1,7 @@
+
+import { FcGoogle } from "react-icons/fc";
+import { FaUser } from "react-icons/fa";
+
 export default function Authenticator() {
     return (
 <div className="auth__wrapper">
@@ -6,7 +10,7 @@ export default function Authenticator() {
             <div className="auth__title">Log in to Summarist</div>
         </div>
         <button className="btn guest__btn--wrapper">
-            <figure className="google__icon--mask guest__icon--mask"></figure>
+            <figure className="google__icon--mask guest__icon--mask"><FaUser size={26}/></figure>
         <div>Log in as a Guest</div>
         </button>
         <div className="auth__separator">
@@ -15,7 +19,9 @@ export default function Authenticator() {
             ::after
         </div>
         <button className="btn google__btn--wrapper">
-            <figure className="google__icon--mask"></figure>
+            <figure className="google__icon--mask">
+                <FcGoogle size={32}/>
+            </figure>
             <div>Login with Google</div>
         </button>
         <div className="auth__separator">
