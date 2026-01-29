@@ -7,7 +7,7 @@ export default function Authenticator() {
     return (
 <div className="auth__wrapper">
     <div className="auth">
-        <div className="auth__content">
+        <div className="auth__content" style={{padding: '40px 32px 24px'}}>
             <div className="auth__title">Log in to Summarist</div>
         <button className="btn guest__btn--wrapper">
             <figure className="google__icon--mask guest__icon--mask"><FaUser size={26}/></figure>
