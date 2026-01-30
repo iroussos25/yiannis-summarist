@@ -2,8 +2,47 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaUser } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+import { auth } from "@/lib/firebase";
+import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
+import { closeLoginModal, setUser } from "@/app/redux/authSlice";
 
 export default function Authenticator() {
+
+const dispatch = useDispatch();
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+
+const handleGuestogin = async () => {
+    try {
+        const userCredential = await signInAnonymously(auth);
+        const { uid } = userCredential.user;
+
+        dispatch(setUser({
+            uid: uid,
+            email: "Guest User"
+        }));
+        dispatch(closeLoginModal());
+
+    } catch (error: any) {
+        console.error("Guest login failed:", error.message);
+    }
+};
+
+const handleAuth = async (e: React.FormEvent) => {
+e.preventDefault();
+try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    
+    dispatch(closeLoginModal());
+    console.log("Success!", userCredential.user);
+
+} catch (error: any) {
+    alert("Login failed:" + error.message);
+}
+} ;
+
     return (
 <div className="auth__wrapper">
     <div className="auth">
@@ -25,7 +64,7 @@ export default function Authenticator() {
         <div className="auth__separator">
             or
         </div>
-        <form className="auth__main--form">
+        <form onSubmit={handleAuth}className="auth__main--form">
             <input className="auth__main--input" type="text" placeholder="Email Address" />       
             <input className="auth__main--input" type="password" placeholder="Password"/>
             <button className="btn"><span>Login</span></button>

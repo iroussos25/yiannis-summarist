@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAppDispatch } from '@/app/redux/hooks';
-import { closeLoginModal, setUser } from '@/app/redux/authSlice';
+import { clearUser, closeLoginModal, setUser } from '@/app/redux/authSlice';
 
 export default function AuthStateListener() {
   const dispatch = useAppDispatch();
@@ -14,11 +14,11 @@ export default function AuthStateListener() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is logged in
-        dispatch(setUser({ uid: user.uid, email: user.email }));
+        dispatch(setUser({ uid: user.uid, email: user.email || "Guest User"}));
         dispatch(closeLoginModal()); // Automatically close modal on success
       } else {
         // User is logged out
-        dispatch(setUser(null));
+        dispatch(clearUser());
       }
     });
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import './global.css'
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./redux/provider";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -25,19 +25,22 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
-}) {
+  children: React.ReactNode }) 
+  
+  {
   return (
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
     <Providers>
       <AuthStateListener/>
       <Header/>
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
-    </html>
+        <main>
+          {children}
+          </main>
     <LoginModal/>
     <Footer/>
     </Providers>
+      </body>
+    </html>
   );
 }

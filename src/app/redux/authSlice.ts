@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 interface AuthState {
@@ -13,10 +13,7 @@ const initialState: AuthState = {
 
 export const authSlice = createSlice({
     name: 'auth',
-    initialState: {
-        isModalOpen: false,
-        user: null as { uid: string; email: string | null} | null,
-    },
+    initialState,
     reducers: {
         openLoginModal: (state) => {
             state.isModalOpen = true;
@@ -24,7 +21,7 @@ export const authSlice = createSlice({
         closeLoginModal: (state) => {
             state.isModalOpen = false;
         },
-        setUser: (state, action) => {
+        setUser: (state, action: PayloadAction<AuthState["user"]>) => {
             state.user = action.payload;
         },
         clearUser: (state) => {
@@ -33,6 +30,6 @@ export const authSlice = createSlice({
     },
 });
 
-export const { openLoginModal, closeLoginModal, setUser } = authSlice.actions;
+export const { openLoginModal, closeLoginModal, setUser, clearUser } = authSlice.actions;
 
 export default authSlice.reducer;
