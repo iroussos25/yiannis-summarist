@@ -22,12 +22,14 @@ import { openLoginModal } from "../redux/authSlice";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Book, fetchRecommendedBooks, fetchSelectedBook } from "@/lib/api";
 import SelectedBook from "@/components/selectedBook";
+import BookCard from "@/components/bookCard";
 
 export default function ForYouPage() {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [loading, setLoading] = useState(true);
+    const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
@@ -42,8 +44,9 @@ export default function ForYouPage() {
 
   useEffect(() => {
 fetchRecommendedBooks().then((books) => {
+    setRecommendedBooks(books);
     console.log("Books received in Page", books)
-})
+});
 
     console.log("ForYouPage mounted, fetching book..");
     fetchSelectedBook().then((book) => {
@@ -146,6 +149,16 @@ fetchRecommendedBooks().then((books) => {
                 )}
             
          </div>
+        </div>
+        <div className={styles.sectionTitle}>Recommended For You</div>
+        <div className={styles.booksWrapper}>
+            {recommendedBooks.length > 0 ? (
+            recommendedBooks.map((book) => (
+                <BookCard key={book.id} book={book} />
+            ))
+            ) : (
+                <div>Loading recommended books...</div>
+            )}
         </div>
       </div>
     </div>

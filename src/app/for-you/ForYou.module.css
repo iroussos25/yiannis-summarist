@@ -197,6 +197,28 @@
   gap: 24px;
 }
 
+.sectionTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #032b41;
+  margin: 32px 0 16px;
+}
+
+.booksWrapper {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto; 
+  padding-bottom: 20px;
+  scrollbar-width: thin; 
+  scrollbar-color: #bac8ce transparent;
+}
+
+.booksWrapper::-webkit-scrollbar {
+  display: block;
+  height: 8px;
+}
+
+
 /* @media (min-width: 751px) {
     .sidebar {
         transform: translateX(0) !important;
