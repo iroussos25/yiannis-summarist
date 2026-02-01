@@ -10,12 +10,11 @@
 }
 
 .wrapper {
-  position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   margin-left: 200px;
   width: calc(100% - 200px);
-  transition: all .3s ease-in-out;
 }
 
 .searchBackground {
@@ -94,13 +93,11 @@
   margin-bottom: 16px;
 }
 
-/* .mainContent {
+.mainContent {
     flex: 1;
-    padding: 32px;
+    padding: 40px 32px;
     background-color: #fff;
-    min-height: calc(100vh - 80px);
-} */
-
+}
 
 
 .sidebar {

@@ -5,7 +5,7 @@ export interface Book {
     id: string;
     author: string;
     title: string;
-    subtitle: string;
+    subTitle: string;
     imageLink: string;
     audioLink: string;
     totalRating: string;
@@ -26,9 +26,23 @@ const API_URL = "https://us-central1-summaristt.cloudfunctions.net";
 export const fetchSelectedBook = async (): Promise<Book | null> => {
     try {
         const { data } = await axios.get(`${API_URL}/getBooks?status=selected`);
-            return data[0] || null;
+        const book = Array.isArray(data) ? data[0] : data;
+
+        console.log("Extracted Book Object:", book)
+            return book || null;
     } catch (error) {
      console.error("Error fetching selected book:", error);
       return null;
       }
+};
+
+export const fetchRecommendedBooks = async (): Promise<Book[]> => {
+    try {
+ const { data } = await axios.get(`${API_URL}/getBooks?status=recommended`);
+ console.log("Recommended Books data:", data);
+ return data || [];
+    } catch (error) {
+        console.error("Error fetching recommended books:", error);
+        return [];
+    }
 };

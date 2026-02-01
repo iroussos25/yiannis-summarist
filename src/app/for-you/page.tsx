@@ -20,10 +20,15 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../redux/store";
 import { openLoginModal } from "../redux/authSlice";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { Book, fetchRecommendedBooks, fetchSelectedBook } from "@/lib/api";
+import SelectedBook from "@/components/selectedBook";
 
 export default function ForYouPage() {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+    const [loading, setLoading] = useState(true);
+
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
 
@@ -35,14 +40,17 @@ export default function ForYouPage() {
         }
     };
 
-    const selectBookData = { 
-        id: "ID Here",
-        title: "The Lean Startup",
-        author: "Eric Ries",
-        subtitle: "How Constant Innovation Creates Radically Successful Businesses",
-        image: "https://firebasestorage.googleapis.com",
-        audioDuration: "3 mins 23 secs"
-    };
+  useEffect(() => {
+fetchRecommendedBooks().then((books) => {
+    console.log("Books received in Page", books)
+})
+
+    console.log("ForYouPage mounted, fetching book..");
+    fetchSelectedBook().then((book) => {
+        setSelectedBook(book);
+        setLoading(false);
+    });
+  }, []);
 
 
   return (
@@ -126,14 +134,18 @@ export default function ForYouPage() {
       </div>
 
       {/* --- MAIN CONTENT AREA --- */}
+      <div className={styles.mainContent}>
+
       <div className={styles.row}>
         {/* Book summaries and dashboard data will go here */}
         <div className={styles.container}>
-            <div className={styles.forYouWrapper}>
-                <div className={styles.forYouTitle}>Selected just for you</div>
-                <audio src="https://firebasestorage.googleapis.com/v0/b/summaristt.appspot.com/o/books%2Faudios%2Fthe-lean-startup.mp3?alt=media&amp;token=c2f2b1d4-eaf2-4d47-8c8a-7a8fd062a47e"></audio>
-                <a className={styles.selectedBook} href="/book/f9gy1gpai8"></a>
-            </div>
+            {loading ? (
+                <div className={styles.loader}>Loading...</div> ) : (
+                    
+                    selectedBook ? <SelectedBook book={selectedBook} /> : <div>No book found</div>
+                )}
+            
+         </div>
         </div>
       </div>
     </div>
