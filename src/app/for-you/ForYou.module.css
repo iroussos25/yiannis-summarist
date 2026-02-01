@@ -94,12 +94,12 @@
   margin-bottom: 16px;
 }
 
-.mainContent {
+/* .mainContent {
     flex: 1;
     padding: 32px;
     background-color: #fff;
     min-height: calc(100vh - 80px);
-}
+} */
 
 
 
@@ -187,9 +187,17 @@
 
 .sidebarToggleBtn {
     display: none;
-    /* align-items: center;
-    justify-content: center;
-    cursor: pointer; */
+    }
+
+.selectedBook {
+  display: flex;
+  justify-content: space-between;
+  width: calc((100% / 3) * 2);
+  background-color: #fbefd6;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 24px;
+  gap: 24px;
 }
 
 /* @media (min-width: 751px) {
@@ -204,7 +212,13 @@
                 display: none;
                 }
                 } */
-                
+                /*FOR LARGER SCREENS*/
+                @media (max-width: 1200px)
+                {
+                    .selectedBook {
+                        width: 100%;
+                    }
+                }
                 /* FOR SMALLER SCREENS */
                 @media (max-width: 750px) {
                     .wrapper {

@@ -35,6 +35,15 @@ export default function ForYouPage() {
         }
     };
 
+    const selectBookData = { 
+        id: "ID Here",
+        title: "The Lean Startup",
+        author: "Eric Ries",
+        subtitle: "How Constant Innovation Creates Radically Successful Businesses",
+        image: "https://firebasestorage.googleapis.com",
+        audioDuration: "3 mins 23 secs"
+    };
+
 
   return (
     <div className={styles.wrapper}>
@@ -117,10 +126,16 @@ export default function ForYouPage() {
       </div>
 
       {/* --- MAIN CONTENT AREA --- */}
-      <main className={styles.mainContent}>
+      <div className={styles.row}>
         {/* Book summaries and dashboard data will go here */}
-        <div className={styles.forYouTitle}>Selected just for you</div>
-      </main>
+        <div className={styles.container}>
+            <div className={styles.forYouWrapper}>
+                <div className={styles.forYouTitle}>Selected just for you</div>
+                <audio src="https://firebasestorage.googleapis.com/v0/b/summaristt.appspot.com/o/books%2Faudios%2Fthe-lean-startup.mp3?alt=media&amp;token=c2f2b1d4-eaf2-4d47-8c8a-7a8fd062a47e"></audio>
+                <a className={styles.selectedBook} href="/book/f9gy1gpai8"></a>
+            </div>
+        </div>
+      </div>
     </div>
   );
 }
