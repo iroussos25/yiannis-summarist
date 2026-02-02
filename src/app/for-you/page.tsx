@@ -43,9 +43,15 @@ export default function ForYouPage() {
 
         if (value.length > 2) {
             setIsSearching(true);
+            try {
+
                 const results = await searchBooks(value);
                 setSearchResults(results);
+            } catch (error) {
+                console.error("Search error:", error);
+            } finally {
                 setIsSearching(false);
+            }
         } else {
             setSearchResults([]);
         }
@@ -117,10 +123,11 @@ loadData();
                 <div className={styles.searchIcon}>
                   <AiOutlineSearch size={20} /></div>
                   {searchQuery.length > 2 && (
-                    <div className={styles.setSearchResultsWrapper}>{isSearching ? (
+                    <div className={styles.setSearchResultsWrapper}>
+                        {isSearching ? (
                         <div className={styles.searchStatus}>Searching...</div> 
                     ) : SearchResults.length > 0 ? (
-                        SearchResults.map(book => (
+                        SearchResults.map((book) => (
                             <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem}>
                                 <Image src={book.imageLink} alt="" width={40} height={40}/>
                                 <div>{book.title}</div>
@@ -261,10 +268,9 @@ loadData();
             suggestedBooks.map((book) => 
                 <BookCard key={book.id} book={book} />)
         )}
-                        
+             </div>           
         </div>
       </div>
-    </div>
 
     );
 }

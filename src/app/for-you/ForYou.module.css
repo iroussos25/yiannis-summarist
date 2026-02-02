@@ -152,7 +152,7 @@
 .searchInput {
   height: 40px;
   width: 100%;
-  padding: 0 16px;
+  padding-right: 40px;
   outline: none;
   background-color: #f1f6f4;
   color: #042330;
@@ -161,14 +161,15 @@
 }
 
 .searchIcon {
-  display: flex;
+    display: flex;
   align-items: center;
   position: absolute;
   height: 100%;
-  right: 8px;
+  right: 12px;
   justify-content: flex-end;
   border-left: 2px solid #e1e7ea;
   padding-left: 8px;
+  pointer-events: none;
 }
 
 .search, .searchInputWrapper {
@@ -179,7 +180,9 @@
 
 .searchInputWrapper {
     position: relative;
-    gap: 8px;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .sidebarToggleBtn {
@@ -228,12 +231,14 @@
 
 .searchInputWrapper { 
     position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
 }
 
 .setSearchResultWrapper {
     position: absolute;
-    top: 50px;
+    top: calc(100% + 8px);
     left: 0;
     width: 100%;
     max-height: 440px;
