@@ -4,7 +4,7 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import styles from "./ForYou.module.css"
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { 
   AiOutlineSearch, 
   AiOutlineHome, 
@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../redux/store";
 import { openLoginModal } from "../redux/authSlice";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Book, fetchRecommendedBooks, fetchSelectedBook } from "@/lib/api";
+import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks } from "@/lib/api";
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
 
@@ -33,6 +33,7 @@ export default function ForYouPage() {
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
 
     const handleAuth = async () => {
         if (user) {
@@ -43,6 +44,11 @@ export default function ForYouPage() {
     };
 
   useEffect(() => {
+fetchSuggestedBooks().then((books) => {
+    setSuggestedBooks(books);
+    console.log("Suggested Books received in Page", books)
+});
+
 fetchRecommendedBooks().then((books) => {
     setRecommendedBooks(books);
     console.log("Books received in Page", books)
@@ -53,7 +59,28 @@ fetchRecommendedBooks().then((books) => {
         setSelectedBook(book);
         setLoading(false);
     });
-  }, []);
+const containers = document.querySelectorAll(`.${styles.booksWrapper}`);
+const onWheel = (e: WheelEvent) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+    const el = e.currentTarget as HTMLDivElement;
+    const isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
+    const isAtStart = el.scrollLeft <= 0;
+    
+    if ((e.deltaY > 0 && !isAtEnd || e.deltaY < 0 && !isAtStart)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+    }
+  }
+ }; 
+    containers.forEach((el) => {
+        el.addEventListener("wheel", onWheel as any, { passive: false});
+    });    
+     return () => { 
+        containers.forEach((el) => {
+            el.removeEventListener("wheel", onWheel as any);
+        });
+     };
+  }, [recommendedBooks, suggestedBooks]);
 
 
   return (
@@ -151,9 +178,21 @@ fetchRecommendedBooks().then((books) => {
          </div>
         </div>
         <div className={styles.sectionTitle}>Recommended For You</div>
+        <div className={styles.sectionSubtitle}>We think you'll like these</div>
         <div className={styles.booksWrapper}>
             {recommendedBooks.length > 0 ? (
             recommendedBooks.map((book) => (
+                <BookCard key={book.id} book={book} />
+            ))
+            ) : (
+                <div>Loading recommended books...</div>
+            )}
+        </div>
+        <div className={styles.sectionTitle}>Suggested Books</div>
+        <div className={styles.sectionSubtitle}>Browse those books</div>
+        <div className={styles.booksWrapper}>
+            {suggestedBooks.length > 0 ? (
+            suggestedBooks.map((book) => (
                 <BookCard key={book.id} book={book} />
             ))
             ) : (

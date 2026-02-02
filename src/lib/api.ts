@@ -46,3 +46,14 @@ export const fetchRecommendedBooks = async (): Promise<Book[]> => {
         return [];
     }
 };
+
+export const fetchSuggestedBooks = async (): Promise<Book[]> => {
+    try {
+        const { data } = await axios.get(`${API_URL}/getBooks?status=suggested`)
+        return data || [];
+
+    }catch (error) {
+        console.error("Error fetching suggested books:", error);
+        return [];
+    }
+};
