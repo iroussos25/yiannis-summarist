@@ -58,13 +58,29 @@ export const fetchSuggestedBooks = async (): Promise<Book[]> => {
     }
 };
 
-export const searchBooks = async (query: string): Promise<Book[]> => {
-    try {
-        const { data } = await axios.get(`${API_URL}/getBooks?search=${query}`);
-        return data || [];
+// export const searchBooks = async (query: string): Promise<Book[]> => {
+//     try {
+//         const { data } = await axios.get(`${API_URL}/getBooks?search=${query}`);
+//         return data || [];
 
-    } catch (error) {
-        console.error("Error searching books:", error);
-        return [];
-    }
+//     } catch (error) {
+//         console.error("Error searching books:", error);
+//         return [];
+//     }
+// };
+
+export const searchBooks = async (query: string): Promise<Book[]> => {
+  try {
+    // This points to your new Next.js rewrite path
+    const response = await axios.get('/api/getBooks', {
+      params: { search: query }
+    });
+    
+    // Axios puts the JSON response in the .data property
+    return response.data; 
+  } catch (error) {
+    console.error("Error searching books:", error);
+    // Return an empty array so the UI doesn't crash on failure
+    return []; 
+  }
 };

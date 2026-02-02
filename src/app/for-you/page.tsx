@@ -33,37 +33,35 @@ export default function ForYouPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [SearchResults, setSearchResults] = useState<Book[]>([]);
     const [isSearching, setIsSearching] = useState(false);
-    
+    const [filteredSearchResults, setFilteredSearchResults] = useState<Book[]>([]);
+
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
 
     const clearSearch = () => {
-        setSearchQuery("");
-        setSearchResults([]);
-        setIsSearching(false);
+        setSearchQuery('');
+        setFilteredSearchResults([]);
     };
 
-    const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchQuery(value);
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
 
-        if (value.length > 2) {
-            setIsSearching(true);
-            try {
-
-                const results = await searchBooks(value);
-                setSearchResults(results);
-            } catch (error) {
-                console.error("Search error:", error);
-            } finally {
-                setIsSearching(false);
-            }
-        } else {
-            setSearchResults([]);
-        }
-    };
-
-    const handleAuth = async () => {
+    if (value.length > 2) {
+        setIsSearching(true);
+        const results = recommendedBooks.filter((book) => 
+            book.title.toLowerCase().includes(value.toLowerCase()) ||
+            book.author.toLowerCase().includes(value.toLowerCase()) ||
+            book.subTitle.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredSearchResults(results);
+    } else {
+        setFilteredSearchResults([]);
+    }
+    setIsSearching(false);
+};
+  
+       const handleAuth = async () => {
         if (user) {
             await signOut(auth);
         } else {
@@ -136,8 +134,8 @@ return (
                       <div className={styles.setSearchResultsWrapper}>
                         {isSearching ? (
                             <div className={styles.searchStatus}>Searching...</div> 
-                        ) : SearchResults.length > 0 ? (
-                            SearchResults.map((book) => (
+                        ) : filteredSearchResults.length > 0 ? (
+                            filteredSearchResults.map((book) => (
                                 <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem}>
                                 <Image src={book.imageLink} alt="" width={40} height={40}/>
                                 <div>{book.title}</div>

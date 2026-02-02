@@ -195,9 +195,11 @@
 }
 
 .searchIcon {
-    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute; */
     right: 12px;
-    pointer-events: none; /* Allows clicks to go through to input */
     cursor: pointer;
 }
 
@@ -208,6 +210,9 @@
 
 .searchStatus {
     padding: 16px; /* Add internal padding to the message container */
+}
+ .searchItem {
+    cursor: pointer;
 }
 
 
