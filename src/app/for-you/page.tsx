@@ -1,10 +1,10 @@
 "use client";
 import cardStyles from "@/components/BookCard.module.css"
-import { onAuthStateChanged, signOut, User } from "firebase/auth";
+import {  signOut } from "firebase/auth";
 import styles from "./ForYou.module.css"
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   AiOutlineSearch, 
   AiOutlineHome, 
@@ -12,15 +12,12 @@ import {
 } from "react-icons/ai";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FiHelpCircle, FiLogIn, FiLogOut } from "react-icons/fi";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiBallPenLine } from "react-icons/ri";
-import { current } from "@reduxjs/toolkit";
 import { auth } from "@/lib/firebase";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../redux/store";
 import { openLoginModal } from "../redux/authSlice";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks } from "@/lib/api";
+import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks, searchBooks } from "@/lib/api";
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
 import Skeleton from "@/components/skeleton";
@@ -31,10 +28,28 @@ export default function ForYouPage() {
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [loading, setLoading] = useState(true);
     const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
+    const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
 
+    const [searchQuery, setSearchQuery] = useState("");
+    const [SearchResults, setSearchResults] = useState<Book[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
-    const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
+
+    const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+
+        if (value.length > 2) {
+            setIsSearching(true);
+                const results = await searchBooks(value);
+                setSearchResults(results);
+                setIsSearching(false);
+        } else {
+            setSearchResults([]);
+        }
+    };
 
     const handleAuth = async () => {
         if (user) {
@@ -45,45 +60,50 @@ export default function ForYouPage() {
     };
 
   useEffect(() => {
-fetchSuggestedBooks().then((books) => {
-    setSuggestedBooks(books);
-    console.log("Suggested Books received in Page", books)
-});
-
-fetchRecommendedBooks().then((books) => {
-    setRecommendedBooks(books);
-    console.log("Books received in Page", books)
-});
-
-    console.log("ForYouPage mounted, fetching book..");
-    fetchSelectedBook().then((book) => {
-        setSelectedBook(book);
+const loadData = async () => {
+    const [selected, recommended, suggested] = await Promise.all([
+        fetchSelectedBook(),
+        fetchRecommendedBooks(),
+        fetchSuggestedBooks()
+    ]);
+    setSelectedBook(selected);
+    setRecommendedBooks(recommended);
+    setSuggestedBooks(suggested);
         setLoading(false);
-    });
-const containers = document.querySelectorAll(`.${styles.booksWrapper}`);
-const handleWheel = (e: WheelEvent) => {
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const container = e.currentTarget as HTMLDivElement;
-        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
-        const isAtStart = container.scrollLeft <= 0;
     
-        if ((e.deltaY > 0 && !isAtEnd || e.deltaY < 0 && !isAtStart)) {
-            e.preventDefault();
-            container.scrollLeft += e.deltaY;
-        }
-        }
-        }; 
-        containers.forEach((container) => {
-            container.addEventListener("wheel", handleWheel as any, { passive: false});
-        });    
-        return () => { 
-           containers.forEach((container) => {
-               container.removeEventListener("wheel", handleWheel as any);
+};
+loadData();
+  }, []);
 
-        });
-     };
-  }, [recommendedBooks, suggestedBooks]);
+  useEffect(() => {
+    if (loading) return; 
 
+  const timer = setTimeout(() => {
+    const containers = document.querySelectorAll(`.${styles.booksWrapper}`);
+
+    const handleWheel = (e: WheelEvent) => {
+      const container = e.currentTarget as HTMLElement;
+      
+      
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+        const isAtStart = container.scrollLeft <= 0;
+
+        if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY;
+        }
+      }
+    };
+
+    containers.forEach(el => el.addEventListener("wheel", handleWheel as any, { passive: false }));
+     return () =>  containers.forEach(el =>
+        el.removeEventListener("wheel", handleWheel as any));
+       
+  }, 500); 
+
+  return () => clearTimeout(timer);
+}, [loading]); 
 
   return (
     <div className={styles.wrapper}>
@@ -93,11 +113,24 @@ const handleWheel = (e: WheelEvent) => {
            <div className={styles.searchContent}>
             <div className={styles.search}>
               <div className={styles.searchInputWrapper}>
-                <input className={styles.searchInput} placeholder="Search for books" type="text" suppressHydrationWarning/>
+                <input className={styles.searchInput} placeholder="Search for books" type="text" suppressHydrationWarning value={searchQuery} onChange={handleSearchChange}/>
                 <div className={styles.searchIcon}>
-                  <AiOutlineSearch size={20} />
-                </div>
-              </div>
+                  <AiOutlineSearch size={20} /></div>
+                  {searchQuery.length > 2 && (
+                    <div className={styles.setSearchResultsWrapper}>{isSearching ? (
+                        <div className={styles.searchStatus}>Searching...</div> 
+                    ) : SearchResults.length > 0 ? (
+                        SearchResults.map(book => (
+                            <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem}>
+                                <Image src={book.imageLink} alt="" width={40} height={40}/>
+                                <div>{book.title}</div>
+                            </Link>
+                        ))
+                      ) : (
+                        <div className={styles.searchStatus}>No Books Found</div>
+                    )}</div>
+                  )}
+            </div>
             </div>
             <div className={styles.sidebarToggleBtn} 
             onClick={() => setIsSidebarOpen(true)}>                 
@@ -214,7 +247,7 @@ const handleWheel = (e: WheelEvent) => {
         <div className={styles.sectionSubtitle}>Browse those books</div>
         <div className={styles.booksWrapper}>
 
-             {loading ? (
+        {loading ? (
                 [...Array(5)].map((_, i) => (
                     <div key={i} className={cardStyles.bookCard} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Skeleton width="172px" height="172px" />
@@ -223,15 +256,15 @@ const handleWheel = (e: WheelEvent) => {
                 </div>
 
                ))
-            ) :(
+            ) : (
             
-            suggestedBooks.map((book) => (
-                <BookCard key={book.id} book={book} />
-            ))
-            
-            )}
+            suggestedBooks.map((book) => 
+                <BookCard key={book.id} book={book} />)
+        )}
+                        
         </div>
       </div>
     </div>
-  );
+
+    );
 }

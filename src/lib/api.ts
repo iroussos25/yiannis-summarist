@@ -57,3 +57,14 @@ export const fetchSuggestedBooks = async (): Promise<Book[]> => {
         return [];
     }
 };
+
+export const searchBooks = async (query: string): Promise<Book[]> => {
+    try {
+        const { data } = await axios.get(`${API_URL}/getBooks?search=${query}`);
+        return data || [];
+
+    } catch (error) {
+        console.error("Error searching books:", error);
+        return [];
+    }
+};
