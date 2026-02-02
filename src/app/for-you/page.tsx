@@ -16,7 +16,7 @@ import { RiBallPenLine } from "react-icons/ri";
 import { auth } from "@/lib/firebase";
 import { useDispatch, useSelector } from "../redux/store";
 import { openLoginModal } from "../redux/authSlice";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks, searchBooks } from "@/lib/api";
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
@@ -36,6 +36,12 @@ export default function ForYouPage() {
     
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+
+    const clearSearch = () => {
+        setSearchQuery("");
+        setSearchResults([]);
+        setIsSearching(false);
+    };
 
     const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -121,6 +127,11 @@ return (
               <div className={styles.searchInputWrapper}>
                 <input className={styles.searchInput} placeholder="Search for books" type="text" suppressHydrationWarning value={searchQuery} onChange={handleSearchChange}/>
                 
+                {searchQuery ? (
+                    <div className={styles.searchIcon} onClick={clearSearch}><RxCross2 size={20} /></div>
+                ):(
+                    <div className={styles.searchIcon}><AiOutlineSearch size={20} /></div>
+                )}
                   {searchQuery.length > 2 && (
                       <div className={styles.setSearchResultsWrapper}>
                         {isSearching ? (
@@ -136,9 +147,9 @@ return (
                         <div className={styles.searchStatus}>No Books Found</div>
                     )}</div>
                 )}
-                <div className={styles.searchIcon}>
-                  <AiOutlineSearch size={20} /></div>
-                    </div>
+                {/* <div className={styles.searchIcon}>
+                  <AiOutlineSearch size={20} /></div> */}
+                  </div>
             </div>
             </div>
             <div className={styles.sidebarToggleBtn} 

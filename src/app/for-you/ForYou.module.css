@@ -17,14 +17,6 @@
   width: calc(100% - 200px);
 }
 
-.searchBackground {
-  background-color: #fff;
-  border-bottom: 1px solid #e1e7ea;
-  height: 80px;
-  z-index: 1;
-}
-
-
 .sidebarTop {
   flex: 1 1;
   margin-top: 40px;
@@ -129,16 +121,6 @@
     z-index: 1;
 }
 
-.searchWrapper {
-    /* position: relative; */
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 32px;
-    max-width: 1070px;
-    margin: 0 auto;
-    height: 100%;
-}
 
 .searchContent {
     display: flex;
@@ -149,16 +131,37 @@
     margin-left: auto;
 }
 
-.searchInput {
-  height: 40px;
-  width: 100%;
-  padding-right: 56px !important;
-  outline: none;
-  background-color: #f1f6f4;
-  color: #042330;
-  border: 2px solid #e1e7ea;
-  border-radius: 8px;
+/* .searchInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
+
+.searchIcon {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    justify-content: flex-end;
+    border-left: 2px solid #e1e7ea;
+    padding-left: 8px;
+    pointer-events: none;
+    z-index: 10;
+}
+.searchInput {
+    height: 40px;
+    width: 100%;
+    padding-right: 56px !important;
+    outline: none;
+    background-color: #f1f6f4;
+    color: #042330;
+    border: 2px solid #e1e7ea;
+    border-radius: 8px;
+}
+
 
 .searchStatus {
     padding-right: 24px;
@@ -167,34 +170,53 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+} */
+
+.searchInputWrapper {
+    position: relative; /* This is the anchor point */
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.setSearchResultsWrapper {
+    position: absolute;
+    top: 45px;          /* Positions it exactly below the search input */
+    left: 0;
+    width: 100%;
+    background-color: white; /* Mandatory so it's not transparent */
+    border: 1px solid #e1e7ea;
+    border-radius: 4px;
+    z-index: 1000;      /* Floats above the main content */
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0; 
 }
 
 .searchIcon {
-    display: flex;
-  align-items: center;
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  justify-content: flex-end;
-  border-left: 2px solid #e1e7ea;
-  padding-left: 8px;
-  pointer-events: none;
-  z-index: 10;
+    position: absolute;
+    right: 12px;
+    pointer-events: none; /* Allows clicks to go through to input */
+    cursor: pointer;
 }
 
-.search, .searchInputWrapper {
-    display: flex;
-    align-items: center;
+.searchInput {
+    padding-right: 44px; /* Space for the icon so text doesn't overlap */
     width: 100%;
 }
 
-.searchInputWrapper {
-    position: relative;
+.searchStatus {
+    padding: 16px; /* Add internal padding to the message container */
+}
+
+
+/* .search, .searchInputWrapper {
     display: flex;
     align-items: center;
     width: 100%;
-}
+} */
+
 
 .sidebarToggleBtn {
     display: none;
