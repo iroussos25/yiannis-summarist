@@ -172,13 +172,13 @@
 .searchIcon {
     display: flex;
   align-items: center;
-  position: absolute !important;
+  position: absolute;
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  /* justify-content: flex-end; */
-  /* border-left: 2px solid #e1e7ea; */
-  /* padding-left: 8px; */
+  justify-content: flex-end;
+  border-left: 2px solid #e1e7ea;
+  padding-left: 8px;
   pointer-events: none;
   z-index: 10;
 }
