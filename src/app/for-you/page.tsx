@@ -111,7 +111,7 @@ loadData();
   return () => clearTimeout(timer);
 }, [loading]); 
 
-  return (
+return (
     <div className={styles.wrapper}>
         
       <div className={styles.searchBackground}>
@@ -120,31 +120,32 @@ loadData();
             <div className={styles.search}>
               <div className={styles.searchInputWrapper}>
                 <input className={styles.searchInput} placeholder="Search for books" type="text" suppressHydrationWarning value={searchQuery} onChange={handleSearchChange}/>
-                <div className={styles.searchIcon}>
-                  <AiOutlineSearch size={20} /></div>
+                
                   {searchQuery.length > 2 && (
-                    <div className={styles.setSearchResultsWrapper}>
+                      <div className={styles.setSearchResultsWrapper}>
                         {isSearching ? (
-                        <div className={styles.searchStatus}>Searching...</div> 
-                    ) : SearchResults.length > 0 ? (
-                        SearchResults.map((book) => (
-                            <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem}>
+                            <div className={styles.searchStatus}>Searching...</div> 
+                        ) : SearchResults.length > 0 ? (
+                            SearchResults.map((book) => (
+                                <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem}>
                                 <Image src={book.imageLink} alt="" width={40} height={40}/>
                                 <div>{book.title}</div>
                             </Link>
                         ))
-                      ) : (
+                    ) : (
                         <div className={styles.searchStatus}>No Books Found</div>
                     )}</div>
-                  )}
+                )}
+                <div className={styles.searchIcon}>
+                  <AiOutlineSearch size={20} /></div>
+                    </div>
             </div>
             </div>
             <div className={styles.sidebarToggleBtn} 
             onClick={() => setIsSidebarOpen(true)}>                 
               <RxHamburgerMenu size={24} />
             </div>
-          </div>
-        </div>
+            </div>
       </div>
 
       {/* --- SIDEBAR --- */}
