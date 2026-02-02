@@ -1,5 +1,5 @@
 "use client";
-
+import cardStyles from "@/components/BookCard.module.css"
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import styles from "./ForYou.module.css"
 import Image from "next/image";
@@ -23,6 +23,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks } from "@/lib/api";
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
+import Skeleton from "@/components/skeleton";
 
 export default function ForYouPage() {
 
@@ -60,24 +61,25 @@ fetchRecommendedBooks().then((books) => {
         setLoading(false);
     });
 const containers = document.querySelectorAll(`.${styles.booksWrapper}`);
-const onWheel = (e: WheelEvent) => {
+const handleWheel = (e: WheelEvent) => {
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-    const el = e.currentTarget as HTMLDivElement;
-    const isAtEnd = el.scrollLeft + el.offsetWidth >= el.scrollWidth;
-    const isAtStart = el.scrollLeft <= 0;
+        const container = e.currentTarget as HTMLDivElement;
+        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
+        const isAtStart = container.scrollLeft <= 0;
     
-    if ((e.deltaY > 0 && !isAtEnd || e.deltaY < 0 && !isAtStart)) {
-        e.preventDefault();
-        el.scrollLeft += e.deltaY;
-    }
-  }
- }; 
-    containers.forEach((el) => {
-        el.addEventListener("wheel", onWheel as any, { passive: false});
-    });    
-     return () => { 
-        containers.forEach((el) => {
-            el.removeEventListener("wheel", onWheel as any);
+        if ((e.deltaY > 0 && !isAtEnd || e.deltaY < 0 && !isAtStart)) {
+            e.preventDefault();
+            container.scrollLeft += e.deltaY;
+        }
+        }
+        }; 
+        containers.forEach((container) => {
+            container.addEventListener("wheel", handleWheel as any, { passive: false});
+        });    
+        return () => { 
+           containers.forEach((container) => {
+               container.removeEventListener("wheel", handleWheel as any);
+
         });
      };
   }, [recommendedBooks, suggestedBooks]);
@@ -88,10 +90,7 @@ const onWheel = (e: WheelEvent) => {
         
       <div className={styles.searchBackground}>
         <div className={styles.searchWrapper}>
-          {/* <figure>
-            <Image src="/logo.png" alt="Summarist Logo" width={150} height={40} />
-          </figure> */}
-          <div className={styles.searchContent}>
+           <div className={styles.searchContent}>
             <div className={styles.search}>
               <div className={styles.searchInputWrapper}>
                 <input className={styles.searchInput} placeholder="Search for books" type="text" suppressHydrationWarning/>
@@ -167,36 +166,69 @@ const onWheel = (e: WheelEvent) => {
       <div className={styles.mainContent}>
 
       <div className={styles.row}>
-        {/* Book summaries and dashboard data will go here */}
         <div className={styles.container}>
             {loading ? (
-                <div className={styles.loader}>Loading...</div> ) : (
-                    
-                    selectedBook ? <SelectedBook book={selectedBook} /> : <div>No book found</div>
-                )}
-            
-         </div>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px'}}>
+                    <Skeleton width="200px" height="28px"/>
+                    <div
+                    style={{
+                        display: 'flex', backgroundColor: '#f1f6f4', padding: '24px', gap: '24px', borderRadius: '4px'
+                    }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <Skeleton width="80%" height="20px" /> 
+          <Skeleton width="40%" height="24px" /> 
+          <Skeleton width="30%" height="18px" /> 
+        </div>
+        <Skeleton width="140px" height="140px" />
+      </div>
+    </div>
+     ) : (
+      selectedBook && <SelectedBook book={selectedBook} /> 
+      )}
+        </div>
         </div>
         <div className={styles.sectionTitle}>Recommended For You</div>
         <div className={styles.sectionSubtitle}>We think you'll like these</div>
         <div className={styles.booksWrapper}>
-            {recommendedBooks.length > 0 ? (
-            recommendedBooks.map((book) => (
-                <BookCard key={book.id} book={book} />
-            ))
-            ) : (
-                <div>Loading recommended books...</div>
-            )}
+            
+            {loading ? (
+                [...Array(5)].map((_, i) => (
+                    <div key={i} className={cardStyles.bookCard} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Skeleton width="172px" height="172px" />
+                <Skeleton width="140" height="16px" />
+                <Skeleton width="100px" height="14px" />
+                </div>
+
+               ))
+            ) :(
+
+                 recommendedBooks.map((book) => 
+                        <BookCard key={book.id} book={book} />
+                    )
+                )
+            }
         </div>
+      
+
         <div className={styles.sectionTitle}>Suggested Books</div>
         <div className={styles.sectionSubtitle}>Browse those books</div>
         <div className={styles.booksWrapper}>
-            {suggestedBooks.length > 0 ? (
+
+             {loading ? (
+                [...Array(5)].map((_, i) => (
+                    <div key={i} className={cardStyles.bookCard} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Skeleton width="172px" height="172px" />
+                <Skeleton width="140" height="16px" />
+                <Skeleton width="100px" height="14px" />
+                </div>
+
+               ))
+            ) :(
+            
             suggestedBooks.map((book) => (
                 <BookCard key={book.id} book={book} />
             ))
-            ) : (
-                <div>Loading recommended books...</div>
+            
             )}
         </div>
       </div>

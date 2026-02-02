@@ -1,0 +1,12 @@
+.skeleton {
+  background-color: #e2e8f0; 
+  position: relative;
+  overflow: hidden;
+  animation: pulse 1.5s infinite ease-in-out; 
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
