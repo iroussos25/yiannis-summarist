@@ -23,7 +23,7 @@ export default function BookCard({ book } :{book: Book }) {
                     <div className={styles.bookStats}>
                     <div className={styles.bookStat}>
                         <AiOutlinePlayCircle size={18} />
-                        <span>{book.audioDuration || "0:00"}</span>
+                        <span>{book.duration || "0:00"}</span>
                      </div>
                     <div className={styles.bookStat}>
                         <AiOutlineStar size={18} />

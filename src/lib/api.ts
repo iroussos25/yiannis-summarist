@@ -3,6 +3,7 @@ import axios from "axios";
 
 export interface Book {
     id: string;
+    bookId: string;
     author: string;
     title: string;
     subTitle: string;
@@ -18,7 +19,10 @@ export interface Book {
     tags: string[];
     bookDescription: string;
     authorDescription: string;
-    audioDuration?: string;
+    duration?: string;
+    rating: number;
+    
+
 }
 
 const API_URL = "https://us-central1-summaristt.cloudfunctions.net";
@@ -83,4 +87,15 @@ export const searchBooks = async (query: string): Promise<Book[]> => {
     // Return an empty array so the UI doesn't crash on failure
     return []; 
   }
+};
+
+export const fetchBookById = async (id: string): Promise<Book> => {
+    try {
+        const response = await axios.get(`${API_URL}/getBook`, {params: {id: id}
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching book with ID ${id}:`, error);
+        throw error;
+    }
 };

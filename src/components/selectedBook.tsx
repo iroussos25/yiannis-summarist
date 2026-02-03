@@ -32,8 +32,8 @@ export default function SelectedBook({ book } : { book: Book}) {
             <div className={styles.selectedBookIcon}>
                 <AiOutlinePlayCircle size={20}/>
             </div>
-            {book.audioDuration && (
-                <div className={styles.selectedBookDuration}>{book.audioDuration}</div>)}
+            {book.duration && (
+                <div className={styles.selectedBookDuration}>{book.duration}</div>)}
         </div>
 
     </div>

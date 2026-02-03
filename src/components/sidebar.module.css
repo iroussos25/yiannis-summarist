@@ -1,0 +1,126 @@
+
+
+.sidebar {
+    background-color: #f7faf9;
+    width: 200px;
+    /* min-width: 200px; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    /* transition: all .3s; */
+}
+
+.sidebarLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    padding-top: 16px;
+    max-width: 160px;
+    margin: 0 auto;
+}
+
+
+.sidebarTop {
+  flex: 1 1;
+  margin-top: 40px;
+}
+
+.activeTab {
+  background-color: #2bd97c;
+}
+.sidebarLinkLine {
+  width: 5px;
+  height: 100%;
+  background-color: transparent;
+  margin-right: 16px;
+}
+.sidebarLinkText {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.sidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 60px);
+  padding-bottom: 20px;
+  overflow-y: auto;
+}
+
+.sidebarIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.sidebarLinkNotAllowed {
+  cursor: not-allowed;
+}
+
+.sidebarLinkWrapper {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  color: #032b41;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.sidebarLinkWrapper:last-child {
+  margin-bottom: 0;
+}
+
+.sidebarOverlayHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebarOverlay {
+    display: none;
+}
+
+.sidebarToggleBtn {
+    display: none;
+    }
+
+    /* FOR SMALLER SCREENS */
+                @media (max-width: 750px) {
+                    .wrapper {
+                        margin-left: 0;
+                        width: 100%;
+                        
+                    }
+                    .sidebar {
+                        transform: translateX(-100%);
+                        transition: all 0.3s ease-in-out;
+                    }
+                    .sidebarOpen {
+                        transform: translateX(0);
+                        width: 80%;
+                        transition: all 0.3s ease-in-out;
+                    }
+                    .sidebarToggleBtn {
+                        display: flex;
+                        cursor: pointer;
+                    }
+                    .sidebarOverlay {
+                        display: block;
+                        position: fixed;
+                        inset: 0;
+                        background-color: rgba(58, 70, 73, 0.65);
+                        transition: opacity .3s ease-in-out;
+                        z-index: 900;
+                        opacity: 0;
+                        pointer-events: none;
+                    }
+
+                    .sidebarOverlayVisible {
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+}

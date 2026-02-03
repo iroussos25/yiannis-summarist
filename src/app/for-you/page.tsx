@@ -21,10 +21,10 @@ import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks, se
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
 import Skeleton from "@/components/skeleton";
+import Sidebar from "@/components/sidebar";
 
 export default function ForYouPage() {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [loading, setLoading] = useState(true);
     const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
@@ -35,8 +35,6 @@ export default function ForYouPage() {
     const [isSearching, setIsSearching] = useState(false);
     const [filteredSearchResults, setFilteredSearchResults] = useState<Book[]>([]);
 
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user);
 
     const clearSearch = () => {
         setSearchQuery('');
@@ -60,15 +58,7 @@ export default function ForYouPage() {
     }
     setIsSearching(false);
 };
-  
-       const handleAuth = async () => {
-        if (user) {
-            await signOut(auth);
-        } else {
-            dispatch(openLoginModal());
-        }
-    };
-
+      
   useEffect(() => {
 const loadData = async () => {
     const [selected, recommended, suggested] = await Promise.all([
@@ -150,67 +140,12 @@ return (
                   </div>
             </div>
             </div>
-            <div className={styles.sidebarToggleBtn} 
-            onClick={() => setIsSidebarOpen(true)}>                 
-              <RxHamburgerMenu size={24} />
-            </div>
+            
             </div>
       </div>
 
       {/* --- SIDEBAR --- */}
-        <div className={`${styles.sidebarOverlay} ${isSidebarOpen ? styles.sidebarOverlayVisible : ""}`} onClick={() => setIsSidebarOpen(false)}>
-            </div>
-      <div className={`${styles.sidebar} ${isSidebarOpen ?  styles.sidebarOpen : ""}`}>
-        <div className={styles.sidebarLogo}>
-           <Image src="/logo.png" alt="logo" width={160} height={40} />
-        </div>
-        <div className={styles.sidebarWrapper}>
-          <div className={styles.sidebarTop}>
-            <Link href="/for-you" className={styles.sidebarLinkWrapper}>
-              <div className={`${styles.sidebarLinkLine} ${styles.activeTab}`}></div>
-              <div className={styles.sidebarIconWrapper}><AiOutlineHome size={24} /></div>
-              <div className={styles.sidebarLinkText}>For you</div>
-            </Link>
-            
-            <Link href="/library" className={styles.sidebarLinkWrapper}>
-              <div className={styles.sidebarLinkLine}></div>
-              <div className={styles.sidebarIconWrapper}><FaRegBookmark size={24} /></div>
-              <div className={styles.sidebarLinkText}>My Library</div>
-            </Link>
-
-            <div className={`${styles.sidebarLinkWrapper} ${styles.sidebarLinkNotAllowed}`}>
-              <div className={styles.sidebarLinkLine}></div>
-              <div className={styles.sidebarIconWrapper}><RiBallPenLine size={24} /></div>
-              <div className={styles.sidebarLinkText}>Highlights</div>
-            </div>
-            
-            <div className={`${styles.sidebarLinkWrapper} ${styles.sidebarLinkNotAllowed}`}>
-              <div className={styles.sidebarLinkLine}></div>
-              <div className={styles.sidebarIconWrapper}><AiOutlineSearch size={24} /></div>
-              <div className={styles.sidebarLinkText}>Search</div>
-            </div>
-          </div>
-
-          <div className={styles.sidebarBottom}>
-            <Link href="/settings" className={styles.sidebarLinkWrapper}>
-              <div className={styles.sidebarLinkLine}></div>
-              <div className={styles.sidebarIconWrapper}><AiOutlineSetting size={24} /></div>
-              <div className={styles.sidebarLinkText}>Settings</div>
-            </Link>
-             
-             <div className={styles.sidebarLinkWrapper}>
-              <div className={styles.sidebarLinkLine}></div>
-              <div className={styles.sidebarIconWrapper}><FiHelpCircle size={24} /></div>
-              <div className={styles.sidebarLinkText}>Help & Support</div>
-             </div>
-            <div className={styles.sidebarLinkWrapper} onClick={handleAuth}>
-              <div className={styles.sidebarLinkLine}></div>
-              <div className={styles.sidebarIconWrapper}>{user ? <FiLogOut size={24} /> : <FiLogIn size={24}/>}</div>
-              <div className={styles.sidebarLinkText}>{user ? "Logout" : "Login"}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Sidebar />
 
       {/* --- MAIN CONTENT AREA --- */}
       <div className={styles.mainContent}>
