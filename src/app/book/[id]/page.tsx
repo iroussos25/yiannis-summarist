@@ -4,14 +4,32 @@ import { useParams } from 'next/navigation';
 import { Book, fetchBookById } from '@/lib/api';
 import styles from './BookDetails.module.css';
 import Image from 'next/image';
-import Sidebar from '@/components/sidebar';
 import { AiOutlineStar, AiOutlineClockCircle, AiOutlineAudio } from "react-icons/ai";
 import { HiOutlineLightBulb, HiOutlineBookOpen } from "react-icons/hi";
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/app/redux/hooks';
+import { setActiveBook } from '@/app/redux/bookSlice';
 
 export default function BookDetailsPage() {
+  const router = useRouter();
   const { id } = useParams();
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+
+  const handleStartReading = () => {
+    if (book) {
+        dispatch(setActiveBook(book));
+        router.push(`/player/${book.id}`);
+    }
+  };
+
+  const handleStartListening = () => {
+    if (book) {
+        dispatch(setActiveBook(book));
+        router.push(`/player/${book.id}?type=audio`)
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -27,7 +45,6 @@ export default function BookDetailsPage() {
 
   return (
     <div className={styles.wrapper}>
-      <Sidebar />
       <div className={styles.mainContent}>
         <main className={styles.container}>
           <div className={styles.innerContent}>
@@ -46,10 +63,10 @@ export default function BookDetailsPage() {
 
               {/* READ & LISTEN BUTTONS */}
               <div className={styles.buttonGroup}>
-                <button className={styles.readBtn}>
+                <button className={styles.readBtn} onClick={handleStartReading}>
                   <HiOutlineBookOpen /> Read
                 </button>
-                <button className={styles.listenBtn}>
+                <button className={styles.listenBtn} onClick={handleStartListening}>
                   <AiOutlineAudio /> Listen
                 </button>
               </div>

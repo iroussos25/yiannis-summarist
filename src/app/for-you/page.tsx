@@ -6,8 +6,6 @@ import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks } f
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
 import Skeleton from "@/components/skeleton";
-import Sidebar from "@/components/sidebar";
-import AppHeader from "@/components/AppHeader";
 
 export default function ForYouPage() {
 
@@ -65,7 +63,6 @@ loadData();
 
 return (
     <div className={styles.wrapper}>
-        <Sidebar />
       <div className={styles.mainContent}>
         <main className={styles.container}>
       <div className={styles.row}>

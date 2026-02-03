@@ -7,6 +7,7 @@ import LoginModal from "@/components/LoginModal";
 import AuthStateListener from "@/components/AuthStateListener";
 import { usePathname } from "next/navigation";
 import AppHeader from "./AppHeader";
+import Sidebar from "./sidebar";
 
 
 export default function ClientLayoutWrapper({
@@ -21,19 +22,30 @@ export default function ClientLayoutWrapper({
 
     const isAppRoute = pathname !== '/';
   
-     return (
-    <Providers>
-      <AuthStateListener/>
+return (
+  <Providers>
+    <AuthStateListener />
+    <div style={{ display: 'flex', minHeight: '100vh' }}> 
+      
+      {isAppRoute && <Sidebar />}
 
+      <div style={{ 
+          flex: 1, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          minWidth: 0,
+          marginLeft: isAppRoute ? '280px' : '0' 
+      }}>
         {isLandingPage ? <Header /> : <AppHeader />}
 
-        <main>
+        <main style={{ flexGrow: 1 }}> 
           {children}
-          </main>
+        </main>
 
-    <LoginModal/>
-
-    <Footer/>
-    </Providers>
-  );
-}
+        <Footer />
+      </div>
+    </div>
+    <LoginModal />
+  </Providers>
+);
+    }
