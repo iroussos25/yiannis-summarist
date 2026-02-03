@@ -9,7 +9,6 @@
     left: 0;
     height: 100vh;
     z-index: 1000;
-    /* transition: all .3s; */
 }
 
 .sidebarLogo {
@@ -105,9 +104,16 @@
                         transition: all 0.3s ease-in-out;
                     }
                     .sidebarToggleBtn {
-                        display: flex;
-                        cursor: pointer;
-                    }
+                          position: fixed;
+                          top: 20px;
+                          left: 20px;
+                          z-index: 50; /* Below the sidebar but above other content */
+                          cursor: pointer;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                         }
+                         
                     .sidebarOverlay {
                         display: block;
                         position: fixed;

@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import LoginModal from "@/components/LoginModal";
 import AuthStateListener from "@/components/AuthStateListener";
 import { usePathname } from "next/navigation";
+import AppHeader from "./AppHeader";
 
 
 export default function ClientLayoutWrapper({
@@ -15,18 +16,24 @@ export default function ClientLayoutWrapper({
   
   {
     const pathname = usePathname();
-    const isDashBoardRoute = pathname === '/for-you' || pathname === '/library';
+    
+    const isLandingPage = pathname === '/';
 
+    const isAppRoute = pathname !== '/';
+  
      return (
     <Providers>
       <AuthStateListener/>
 
-     {!isDashBoardRoute && <Header/>}
+        {isLandingPage ? <Header /> : <AppHeader />}
+
         <main>
           {children}
           </main>
+
     <LoginModal/>
-    {!isDashBoardRoute && <Footer/>}
+
+    <Footer/>
     </Providers>
   );
 }

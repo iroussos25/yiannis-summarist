@@ -1,0 +1,79 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 280px;
+}
+
+.container {
+  max-width: 1070px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.innerContent {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+/* Stats Row Styling */
+.statsRow {
+  display: flex;
+  gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid #e1e7ea;
+  border-bottom: 1px solid #e1e7ea;
+  margin-bottom: 32px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #032b21;
+}
+
+/* Button Styling (Action Buttons) */
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.readBtn, .listenBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+.imageContainer {
+  width: 300px;
+  height: 450px;
+  position: relative; /* Essential for Next.js Image */
+}
+
+.imageContainer img {
+  object-fit: contain; /* Prevents stretching */
+  width: 100% !important;
+  height: auto !important;
+}
+
+.readBtn { background: #032b21; color: white; }
+.listenBtn:hover { background: #e1e7ea; }
+
+@media (max-width: 768px) {
+  .innerContent { flex-direction: column-reverse; }
+  .infoRight { display: flex; justify-content: center; }
+}
