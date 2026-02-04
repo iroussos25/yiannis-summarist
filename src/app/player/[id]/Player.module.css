@@ -1,0 +1,115 @@
+.playerPageWrapper {
+    width: 100%;
+    min-height: 100vh;
+    background-color: white;
+    color: #032b21;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme Styles */
+.darkTheme {
+    background-color: #1a1d1e; 
+    color: #f1f6f4;           
+}
+
+.darkTheme .settingsBar {
+    border-color: #333;
+    background-color: #242829;
+}
+
+.darkTheme .title {
+    border-color: #333;
+}
+
+.darkTheme .fontSizeControls button {
+    background: #333;
+    color: white;
+    border-color: #444;
+}
+
+.themeToggle {
+    margin-left: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #bac8ce;
+    background: white;
+    font-weight: 600;
+}
+
+.darkTheme .themeToggle {
+    background: #333;
+    color: white;
+    border-color: #444;
+}
+
+.settingsBar {
+    border-bottom: 1px solid #e1e7ea;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.fontSizeControls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 600;
+}
+
+.fontSizeControls button {
+    padding: 4px 12px;
+    border: 1px solid #bac8ce;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+.readerContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 120px; 
+}
+
+.title {
+    font-size: 28px;
+    border-bottom: 1px solid #e1e7ea;
+    padding-bottom: 16px;
+    margin-bottom: 32px;
+}
+
+.summaryText {
+    line-height: 1.6; /* Critical for readability */
+    white-space: pre-wrap; /* Keeps the paragraph spacing from the API */
+    color: #032b21;
+    transition: font-size 0.2s ease, color 0.3s ease; /* Makes resizing feel smooth */
+}
+
+.darkTheme .summaryText {
+    color: #f1f6f4;
+}
+
+/* Tablet & Mobile Breakpoints */
+@media (max-width: 1024px) {
+    .readerContainer {
+        max-width: 90%; 
+        padding: 30px 15px 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .settingsBar {
+        flex-direction: column; 
+        gap: 15px;
+    }
+    
+    .title {
+        font-size: 22px;
+    }
+
+    .readerContainer {
+        max-width: 100%; 
+        padding: 20px 20px 120px;
+    }
+}

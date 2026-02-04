@@ -676,7 +676,8 @@ z-index: 9999;
 
 @media (max-width: 1024px) {
     .app-content-wrapper {
-        margin-left: 0; 
+        margin-left: 0 !important;
+        width: 100%; 
     }
 
     .audioPlayerWrapper { 

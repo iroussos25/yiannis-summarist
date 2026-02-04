@@ -8,11 +8,13 @@
     top: 0;
     left: 0;
     height: 100vh;
-    z-index: 100;
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0);
 }
 
 .sidebarContent {
@@ -100,46 +102,57 @@
     display: none;
     }
 
-    /* FOR SMALLER SCREENS */
-                @media (max-width: 750px) {
-                    .wrapper {
-                        margin-left: 0;
-                        width: 100%;
-                        
-                    }
-                    .sidebar {
-                        transform: translateX(-100%);
-                        transition: all 0.3s ease-in-out;
-                    }
-                    .sidebarOpen {
-                        transform: translateX(0);
-                        width: 80%;
-                        transition: all 0.3s ease-in-out;
-                    }
-                    .sidebarToggleBtn {
-                          position: fixed;
-                          top: 20px;
-                          left: 20px;
-                          z-index: 50; /* Below the sidebar but above other content */
-                          cursor: pointer;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                         }
-                         
-                    .sidebarOverlay {
-                        display: block;
-                        position: fixed;
-                        inset: 0;
-                        background-color: rgba(58, 70, 73, 0.65);
-                        transition: opacity .3s ease-in-out;
-                        z-index: 900;
-                        opacity: 0;
-                        pointer-events: none;
-                    }
+/* FOR SMALLER SCREENS */
+@media (max-width: 1024px) {
+    .wrapper {
+        margin-left: 0;
+        width: 100%;
+        
+    }
+    .sidebar {
+        transform: translateX(-100%);
+        transition: all 0.3s ease-in-out;
+    }
+    .sidebarOpen {
+        transform: translateX(0);
+        width: 80%;
+        transition: all 0.3s ease-in-out;
+    }
+    .sidebarToggleBtn {
+          position: fixed;
+          top: 25px;
+          right: 25px;
+          z-index: 1050;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #032b21;
+          background-color: white;
+          padding: 8px;
+          border-radius: 50%;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          transition: transform 0.2s ease, background-color 0.2s ease;
+          }
 
-                    .sidebarOverlayVisible {
-                        opacity: 1;
-                        pointer-events: auto;
-                    }
+          .sidebarToggleBtn:active {
+            transform: scale(0.95);
+            background-color: #e1e7ea;
+          }
+          
+    .sidebarOverlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(58, 70, 73, 0.65);
+        transition: opacity .3s ease-in-out;
+        z-index: 900;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .sidebarOverlayVisible {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }

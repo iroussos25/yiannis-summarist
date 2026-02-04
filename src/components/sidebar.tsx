@@ -4,7 +4,7 @@ import styles from './sidebar.module.css'
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
+import { RxCross2, RxHamburgerMenu } from 'react-icons/rx';
 import { AiOutlineHome, AiOutlineSearch, AiOutlineSetting } from 'react-icons/ai';
 import { FaRegBookmark } from 'react-icons/fa';
 import { RiBallPenLine } from 'react-icons/ri';
@@ -37,8 +37,8 @@ export default function Sidebar() {
 
         <>
 <div className={styles.sidebarToggleBtn} 
-            onClick={() => setIsSidebarOpen(true)}>                 
-              <RxHamburgerMenu size={24} />
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}>                 
+              {isSidebarOpen ? <RxCross2 size={28} /> : <RxHamburgerMenu size={28} />}
             </div>
 <div className={`${styles.sidebarOverlay} ${isSidebarOpen ? styles.sidebarOverlayVisible : ""}`} onClick={() => setIsSidebarOpen(false)}>
             </div>
