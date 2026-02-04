@@ -79,6 +79,17 @@ button:disabled {
   justify-content: center;
 }
 
+.app-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease; 
+    margin-left: 200px; 
+}
+
+
+
 /* HOME */
 .section__title {
   font-size: 32px;
@@ -638,6 +649,12 @@ z-index: 9999;
 .footer__copyright {
   color: #032b41;
   font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+    .app-content-wrapper {
+        margin-left: 0; 
+    }
 }
 
 @media (max-width: 768px) {

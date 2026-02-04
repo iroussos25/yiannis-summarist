@@ -5,8 +5,6 @@
   border-bottom: 1px solid #e1e7ea;
   display: flex;
   align-items: center;
-  /* 1. Push content away from the sidebar */
-  padding-left: 280px; 
   position: sticky;
   top: 0;
   z-index: 50;
@@ -18,13 +16,12 @@
   margin: 0 auto;
   padding: 0 32px;
   display: flex;
-  /* 2. Pushes the search bar to the right */
   justify-content: flex-end; 
   align-items: center;
 }
 
 .searchWrapper {
   width: 100%;
-  max-width: 300px; /* Limits search bar width */
+  max-width: 300px; 
   position: relative;
 }

@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin-left: 280px;
 }
 
 .container {
@@ -23,7 +22,6 @@
   margin-top: 20px;
 }
 
-/* Stats Row Styling */
 .statsRow {
   display: flex;
   gap: 16px;
@@ -61,11 +59,11 @@
 .imageContainer {
   width: 300px;
   height: 450px;
-  position: relative; /* Essential for Next.js Image */
+  position: relative; 
 }
 
 .imageContainer img {
-  object-fit: contain; /* Prevents stretching */
+  object-fit: contain; 
   width: 100% !important;
   height: auto !important;
 }

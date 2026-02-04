@@ -34,15 +34,18 @@ return (
           display: 'flex', 
           flexDirection: 'column', 
           minWidth: 0,
-          marginLeft: isAppRoute ? '280px' : '0' 
+          minHeight: '100vh'
       }}>
+        <div className={isAppRoute ? "app-content-wrapper" : ""}>
+
         {isLandingPage ? <Header /> : <AppHeader />}
 
         <main style={{ flexGrow: 1 }}> 
           {children}
         </main>
 
-        <Footer />
+       {isLandingPage && <Footer />}
+        </div>
       </div>
     </div>
     <LoginModal />
