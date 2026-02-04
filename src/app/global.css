@@ -651,10 +651,37 @@ z-index: 9999;
   font-weight: 500;
 }
 
+.audioPlayerWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 200px; /* Offset for your sidebar */
+  right: 0;
+  height: 80px;
+  background-color: #042330;
+  color: white;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.audioPlayerContent {
+  display: flex;
+  width: 100%;
+  max-width: 1070px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media (max-width: 1024px) {
     .app-content-wrapper {
         margin-left: 0; 
     }
+
+    .audioPlayerWrapper { 
+      left: 0; }
+
 }
 
 @media (max-width: 768px) {

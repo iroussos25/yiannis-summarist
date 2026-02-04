@@ -8,6 +8,7 @@ import AuthStateListener from "@/components/AuthStateListener";
 import { usePathname } from "next/navigation";
 import AppHeader from "./AppHeader";
 import Sidebar from "./sidebar";
+import AudioPlayer from "./AudioPlayer";
 
 
 export default function ClientLayoutWrapper({
@@ -49,6 +50,7 @@ return (
       </div>
     </div>
     <LoginModal />
+    <AudioPlayer />
   </Providers>
 );
     }
