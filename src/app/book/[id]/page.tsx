@@ -27,7 +27,10 @@ export default function BookDetailsPage() {
   const handleStartListening = () => {
     if (book) {
         dispatch(setActiveBook(book));
-        router.push(`/player/${book.id}?type=audio`)
+        setTimeout(() => {
+            router.push(`/player/${book.id}?type=audio`)
+
+        }, 10);
     }
   };
 

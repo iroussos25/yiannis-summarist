@@ -1,0 +1,82 @@
+.audioPlayerWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 200px; /* Sidebar width */
+  right: 0;
+  height: 80px;
+  background-color: #042330; /* Dark Summarist theme */
+  color: white;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audioPlayerContent {
+  display: flex;
+  width: 100%;
+  max-width: 1070px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* Book Info Section */
+.bookInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.author {
+  font-size: 12px;
+  color: #bac8ce;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.controlBtn, .mainToggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.mainToggle:hover {
+  transform: scale(1.1);
+}
+
+/* Progress Bar (The Green Slider) */
+.progressBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.rangeInput {
+  flex: 1;
+  cursor: pointer;
+  accent-color: #2bd880; /* Summarist Green */
+}
+
+.time {
+  font-size: 12px;
+  font-family: monospace;
+}

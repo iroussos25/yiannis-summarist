@@ -1,6 +1,5 @@
 'use client'
 
-import { Providers } from "@/app/redux/provider";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import LoginModal from "@/components/LoginModal";
@@ -9,6 +8,7 @@ import { usePathname } from "next/navigation";
 import AppHeader from "./AppHeader";
 import Sidebar from "./sidebar";
 import AudioPlayer from "./AudioPlayer";
+import { useAppSelector } from "@/app/redux/hooks";
 
 
 export default function ClientLayoutWrapper({
@@ -20,22 +20,23 @@ export default function ClientLayoutWrapper({
     const pathname = usePathname();
     
     const isLandingPage = pathname === '/';
-
+    const activeBook = useAppSelector((state) => state.book.activeBook);
+    
     const isAppRoute = pathname !== '/';
-  
-return (
-  <Providers>
+    
+    return (
+      <>
     <AuthStateListener />
-    <div style={{ display: 'flex', minHeight: '100vh' }}> 
+    <div style={{ display: 'flex', minHeight: '100vh', paddingBottom: activeBook ? '80px' : '0' }}> 
       
       {isAppRoute && <Sidebar />}
 
       <div style={{ 
-          flex: 1, 
-          display: 'flex', 
-          flexDirection: 'column', 
-          minWidth: 0,
-          minHeight: '100vh'
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        minWidth: 0,
+        minHeight: '100vh'
       }}>
         <div className={isAppRoute ? "app-content-wrapper" : ""}>
 
@@ -51,6 +52,6 @@ return (
     </div>
     <LoginModal />
     <AudioPlayer />
-  </Providers>
+        </>
 );
     }
