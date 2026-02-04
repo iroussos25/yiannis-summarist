@@ -1,11 +1,12 @@
 "use client";
 
-import { useAppSelector } from "@/app/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./AudioPlayer.module.css";
 import Image from "next/image";
-import { IoPlayBackSharp, IoPlayForwardSharp } from "react-icons/io5";
+import { IoClose, IoPlayBackSharp, IoPlayForwardSharp } from "react-icons/io5";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
+import { clearActiveBook } from "@/app/redux/bookSlice";
 
 const MOCK_AUDIO_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
@@ -17,6 +18,8 @@ export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const dispatch = useAppDispatch();
 
   const repeat = useCallback(() => {
     if (audioRef.current) {
@@ -91,7 +94,7 @@ export default function AudioPlayer() {
         <div className={styles.bookInfo}>
           <div className={styles.imageWrapper}>
             {book.imageLink && (
-              <Image src={book.imageLink} alt={book.title} width={48} height={48} />
+              <Image src={book.imageLink} alt={book.title} width={56} height={56} />
             )}
           </div>
           <div className={styles.textContainer}>
@@ -111,8 +114,9 @@ export default function AudioPlayer() {
             <IoPlayForwardSharp size={24} />
           </button>
         </div>
+            <div className={styles.rightSection}>
 
-        <div className={styles.progressBar}>
+        <div className={styles.progressBarContainer}>
           <span className={styles.time}>{formatTime(timeProgress)}</span>
           <input
             type="range"
@@ -120,10 +124,15 @@ export default function AudioPlayer() {
             value={timeProgress}
             max={duration || 0}
             onChange={handleProgressChange}
-          />
+            />
           <span className={styles.time}>{formatTime(duration)}</span>
         </div>
+        <button className={styles.closeBtn} onClick={() => dispatch(clearActiveBook())}>
+          <IoClose size={24} />
+        </button>
       </div>
+
+    </div>
     </div>
   );
 }

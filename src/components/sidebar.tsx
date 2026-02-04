@@ -13,16 +13,19 @@ import { openLoginModal } from '@/app/redux/authSlice';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks';
+import { clearActiveBook } from '@/app/redux/bookSlice';
 
 export default function Sidebar() {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    
-    const dispatch = useAppDispatch();
-    const user = useAppSelector((state) => state.auth.user);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  const activeBook = useAppSelector((state) => state.book.activeBook);
 
    const handleAuth = async () => {
         if (user) {
+          dispatch(clearActiveBook());
             await signOut(auth);
         } else {
             dispatch(openLoginModal());
@@ -40,6 +43,8 @@ export default function Sidebar() {
 <div className={`${styles.sidebarOverlay} ${isSidebarOpen ? styles.sidebarOverlayVisible : ""}`} onClick={() => setIsSidebarOpen(false)}>
             </div>
       <div className={`${styles.sidebar} ${isSidebarOpen ?  styles.sidebarOpen : ""}`}>
+        <div className={styles.sidebarContent} style={{ paddingBottom: activeBook ? '80px' : '20px'}}>
+          
         <div className={styles.sidebarLogo}>
            <Image src="/logo.png" alt="logo" width={160} height={40} />
         </div>
@@ -88,6 +93,7 @@ export default function Sidebar() {
               <div className={styles.sidebarLinkText}>{user ? "Logout" : "Login"}</div>
             </div>
           </div>
+        </div>
         </div>
       </div>
 </>
