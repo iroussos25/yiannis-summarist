@@ -14,7 +14,7 @@ export interface Book {
     keyIdeas: string;
     type: string;
     status: string;
-    subscriptionRequired: string;
+    subscriptionRequired: boolean;
     summary: string;
     tags: string[];
     bookDescription: string;

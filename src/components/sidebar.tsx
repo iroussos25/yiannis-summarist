@@ -25,8 +25,8 @@ export default function Sidebar() {
 
    const handleAuth = async () => {
         if (user) {
+          await signOut(auth);
           dispatch(clearActiveBook());
-            await signOut(auth);
         } else {
             dispatch(openLoginModal());
         }

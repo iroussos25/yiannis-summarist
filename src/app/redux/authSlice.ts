@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AuthState {
     isModalOpen: boolean;
     user: any | null;
+    isPremium: boolean;
 }
 
 const initialState: AuthState = {
     isModalOpen: false,
     user: null,
+    isPremium: false,
 };
 
 export const authSlice = createSlice({
@@ -26,6 +28,10 @@ export const authSlice = createSlice({
         },
         clearUser: (state) => {
             state.user = null; 
+        },
+        setLogin: (state, action: PayloadAction<AuthState["user"]>) => {
+            state.user = action.payload;
+            state.isPremium = action.payload?.subscriptionStatus === 'premium';
         },
     },
 });
