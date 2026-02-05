@@ -23,8 +23,9 @@
 }
 
 .statsRow {
-  display: flex;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
   padding: 24px 0;
   border-top: 1px solid #e1e7ea;
   border-bottom: 1px solid #e1e7ea;
@@ -34,15 +35,50 @@
 .stat {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 14px;
+  font-size: 18px;
+  font-weight: 500;
   color: #032b21;
+}
+.premiumText {
+  color: #032b21;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.libraryToggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  margin-bottom: 32px;
+  transition: opacity 0.2s;
+  width: fit-content;
+}
+
+.libraryToggle:hover {
+  opacity: 0.7;
+}
+
+.libraryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #032b21;
+  color: #116be9;
+}
+
+.libraryText {
+  font-size: 18px;
+  font-weight: 600;
+  color: #116be9;
+
 }
 
 /* Button Styling (Action Buttons) */
 .buttonGroup {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   margin-bottom: 40px;
 }
 
@@ -55,6 +91,8 @@
   font-weight: bold;
   cursor: pointer;
   border: none;
+  background: #032b21;
+   color: white;
 }
 .imageContainer {
   width: 300px;
@@ -68,8 +106,54 @@
   height: auto !important;
 }
 
-.readBtn { background: #032b21; color: white; }
-.listenBtn:hover { background: #e1e7ea; }
+.subTitle {
+  font-size: 20px;
+  font-weight: 300;
+  color: #032b21;
+  margin-top: 8px;
+}
+
+.stat svg {
+  font-size: 24px;
+}
+
+.title {
+  font-size: 38px;
+  font-weight: 700;
+  color: #032b21;
+}
+
+.titleBox {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  line-height: 2;
+  align-items: flex-start;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  background-color: #f1f6f4;
+  color: #032b21;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #032b21;
+  margin-bottom: 16px;
+}
 
 @media (max-width: 768px) {
   .innerContent { flex-direction: column-reverse; }
