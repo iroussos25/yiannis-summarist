@@ -18,6 +18,7 @@ export default function ClientLayoutWrapper({
   
   {
     const pathname = usePathname();
+    const isPlanPage = pathname === '/plan';
     
     const isLandingPage = pathname === '/';
     const activeBook = useAppSelector((state) => state.book.activeBook);
@@ -29,7 +30,7 @@ export default function ClientLayoutWrapper({
     <AuthStateListener />
     <div style={{ display: 'flex', minHeight: '100vh', paddingBottom: activeBook ? '80px' : '0' }}> 
       
-      {isAppRoute && <Sidebar />}
+      {isAppRoute && !isPlanPage && <Sidebar />}
 
       <div style={{ 
         flex: 1, 
@@ -40,13 +41,13 @@ export default function ClientLayoutWrapper({
       }}>
         <div className={isAppRoute ? "app-content-wrapper" : ""}>
 
-        {isLandingPage ? <Header /> : <AppHeader />}
+        {isLandingPage ? (<Header />) : (!isPlanPage && <AppHeader />)}
 
         <main style={{ flexGrow: 1 }}> 
           {children}
         </main>
 
-       {isLandingPage && <Footer />}
+       {(isLandingPage || isPlanPage) && <Footer />}
         </div>
       </div>
     </div>
