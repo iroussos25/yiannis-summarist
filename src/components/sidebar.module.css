@@ -85,6 +85,36 @@
   cursor: pointer;
 }
 
+.sidebarPremiumSection {
+  margin: 20px 0; 
+  padding: 0 16px;
+}
+
+.sidebarPremiumButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  background-color: #2bd880; 
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.sidebarPremiumButton:hover {
+  background-color: #24b86d; 
+}
+
+.sidebarPremiumButtonText {
+  white-space: nowrap; 
+}
+
+.sidebarPremiumButton .sidebarIconWrapper {
+  color: white;
+}
+
 .sidebarLinkWrapper:last-child {
   margin-bottom: 0;
 }

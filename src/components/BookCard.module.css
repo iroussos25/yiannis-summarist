@@ -123,3 +123,25 @@
   z-index: 10;
 
 }
+
+.premiumPillSkeleton {
+  position: absolute;
+  top: 0px;
+  right: 8px;
+  z-index: 10; 
+}
+
+.bookCardSkeletonContent {
+  text-decoration: none; 
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
+}
+
+.addBtnSkeleton {
+  position: absolute;
+  top: 140px; 
+  right: 12px; 
+  z-index: 5; 
+}

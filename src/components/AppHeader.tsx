@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { RxCross2 } from 'react-icons/rx';
 import { Book, fetchRecommendedBooks } from '@/lib/api';
+import { MdAccessTime } from 'react-icons/md';
 // Import your search logic states/handlers if you want the search to work here too
 
 export default function AppHeader() {
@@ -44,55 +45,62 @@ setFilteredSearchResults([]);
 }
 };
 
+
 return (
 <header className={styles.appHeader}>
-    THIS IS A HEADER
-<div className={styles.headerContent}>
- <div className={styles.searchWrapper}>
-    <div className={styles.searchInputWrapper}>
-        <input className={styles.searchInput} placeholder="Search for books" type="text" suppressHydrationWarning value={searchQuery} onChange={handleSearchChange}/>
+        <div className={styles.headerContent}>
+    
+        <div className={styles.searchWrapper}>
+            <div className={styles.searchInputWrapper}>
+                <input
+                    className={styles.searchInput}
+                    placeholder="Search for books"
+                    type="text"
+                    suppressHydrationWarning
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
 
-{searchQuery ? (
-    <div className={styles.searchIcon} onClick={clearSearch}><RxCross2 size={20} onClick={clearSearch} style={{cursor: 'pointer'}} /></div>
-):(
-    <div className={styles.searchIcon}><AiOutlineSearch size={20} />
+                {searchQuery ? (
+                    <div className={styles.searchIcon} onClick={clearSearch}>
+                        <RxCross2 size={20} style={{ cursor: 'pointer' }} />
+                    </div>
+                ) : (
+                    <div className={styles.searchIcon}>
+                        <AiOutlineSearch size={20} />
+                    </div>
+                )}
+            </div> 
+            
+            {searchQuery.length > 2 && (
+                <div className={styles.searchResultsWrapper}> 
+                    {isSearching ? (
+                        <div className={styles.searchStatus}>Searching...</div>
+                    ) : filteredSearchResults.length > 0 ? (
+                        filteredSearchResults.map((book) => (
+                            <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem} onClick={clearSearch}>
+                                <Image src={book.imageLink} alt={book.title} width={40} height={40} className={styles.searchItemImage}/>
+                                <div className={styles.searchItemInfo}>
+                                    <div className={styles.searchItemTitle}>{book.title}</div>
+                                    <div className={styles.searchItemAuthor}>{book.author}</div>
+                                    {book.duration && (
+                                        <div className={styles.searchItemDuration}>
+                                            <MdAccessTime size={14} />
+                                            <span>{book.duration}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className={styles.searchStatus}>No Books Found</div>
+                    )}
+                </div>
+            )}
+
+        </div>
+         
     </div>
-)}
-    {searchQuery.length > 2 && (
-        <div className={styles.setSearchResultsWrapper}>
-        {isSearching ? (
-            <div className={styles.searchStatus}>Searching...</div> 
-        ) : filteredSearchResults.length > 0 ? (
-            filteredSearchResults.map((book) => (
-                <Link href={`/book/${book.id}`} key={book.id} className={styles.searchItem} onClick={clearSearch}>
-                <Image src={book.imageLink} alt="" width={40} height={40}/>
-                <div>{book.title}</div>
-            </Link>
-        ))
-    ) : (
-        <div className={styles.searchStatus}>No Books Found</div>
-    )}
-    </div>
-)}
-
-    </div>
-
-</div>
-
-{/* <div className={styles.searchBarContainer}>
-<input 
-type="text" 
-placeholder="Search for books..." 
-className={styles.searchInput}
-/>
-<AiOutlineSearch className={styles.searchIcon} />
-</div> */}
-
-{/* User profile or other nav items on the right */}
-<div className={styles.userSection}>
-{/* You can add your Login/Logout logic here later */}
-</div>
-</div>
 </header>
 );
 }

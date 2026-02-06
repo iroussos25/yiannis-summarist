@@ -111,6 +111,22 @@
     
 }
 
+.backToHomeLink {
+  display: inline-flex; 
+  align-items: center;
+  gap: 8px; 
+  text-decoration: none;
+  color: #032b41; 
+  font-weight: 600;
+  margin-bottom: 24px; 
+  padding: 8px 0; 
+  transition: opacity 0.2s ease; 
+}
+
+.backToHomeLink:hover {
+  opacity: 0.7; 
+}
+
 .planTitle {
     font-size: 54px;
     line-height: 1.3;

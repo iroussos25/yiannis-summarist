@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import styles from "./Plan.module.css";
-import { FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
+import { FaArrowLeft, FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
 import { RiPlantFill } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { openLoginModal } from "../redux/authSlice";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const PlanPage = () => {
   const [selectedPlan, setSelectedPlan] = useState("yearly");
@@ -14,6 +15,7 @@ const PlanPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { user } = useAppSelector(state => state.auth);
+  
 
   const handleCtaClick = () => { 
     if (!user) {
@@ -60,6 +62,10 @@ const PlanPage = () => {
 </div>
       {/* Pricing Selection */}
       <div className={styles.heroWrapper}>
+        <Link href="/for-you" className={styles.backToHomeLink}>
+        <FaArrowLeft size={20} />
+        <span>Back to Home</span>
+        </Link>
 <div className={styles.planFeaturesWrapper}>
     <div className={styles.planFeature}>
         <figure className={styles.planFeaturesIcon}>
