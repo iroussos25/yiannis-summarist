@@ -24,6 +24,8 @@ const PlanPage = () => {
   ];
 
   return (
+    <div className={styles.fullWidthContainer}>
+
     <div className={styles.planContainer}>
       {/* Hero Graphic Section */}
 
@@ -56,7 +58,7 @@ const PlanPage = () => {
         <div 
           className={`${styles.planOption} ${selectedPlan === "monthly" ? styles.active : ""}`}
           onClick={() => setSelectedPlan("monthly")}
-        >
+          >
           <div className={styles.radio}></div>
           <div>
             <div style={{ fontWeight: 700 }}>Summarist Premium Monthly</div>
@@ -73,11 +75,11 @@ const PlanPage = () => {
       {/* Accordion FAQ Section */}
       <div className={styles.accordionSection}>
         {faqs.map((faq, index) => (
-          <div key={index} className={styles.accordionItem}>
+            <div key={index} className={styles.accordionItem}>
             <div 
               className={styles.accordionHeader} 
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            >
+              >
               {faq.q}
               {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
             </div>
@@ -88,6 +90,7 @@ const PlanPage = () => {
         ))}
       </div>
     </div>
+</div>
   );
 };
 

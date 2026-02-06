@@ -1,3 +1,17 @@
+.fullWidthContainer {
+  width: 100vw; 
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: #032b41;
+  color: white;
+  padding: 60px 20px; 
+  border-bottom-left-radius: 50% 100px;
+  border-bottom-right-radius: 50% 100px;
+}
+
 .app-content-wrapper {
     flex-direction: column;
     margin-left: 0;
