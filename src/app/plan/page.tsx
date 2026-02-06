@@ -4,10 +4,25 @@ import React, { useState } from "react";
 import styles from "./Plan.module.css";
 import { FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
 import { RiPlantFill } from "react-icons/ri";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { openLoginModal } from "../redux/authSlice";
+import { useRouter } from "next/navigation";
 
 const PlanPage = () => {
   const [selectedPlan, setSelectedPlan] = useState("yearly");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { user } = useAppSelector(state => state.auth);
+
+  const handleCtaClick = () => { 
+    if (!user) {
+        dispatch(openLoginModal());
+    } else {
+        router.push(`/checkout?plan=${selectedPlan}`);
+    }
+    };
+  
 
   const faqs = [
     {
@@ -101,7 +116,7 @@ const PlanPage = () => {
       </div>
       <div className={styles.ctaWrap}>
 
-      <button className={styles.ctaButton}>
+      <button className={styles.ctaButton} onClick={handleCtaClick}>
         {selectedPlan === "yearly" ? "Start your free 7-day trial" : "Start your Monthly subscription"}
       </button>
       <div className={styles.planDisclaimer}>Cancel your trial at any time before it ends,and you won't be charged.</div>

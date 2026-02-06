@@ -137,6 +137,7 @@ button:disabled {
     align-items: center;
     flex-direction: column;
     width: 100%;
+    z-index: 99999;
   }
   
 
@@ -208,7 +209,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .auth__main--input {
