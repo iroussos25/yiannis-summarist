@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import styles from "./Plan.module.css";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
+import { RiPlantFill } from "react-icons/ri";
 
 const PlanPage = () => {
   const [selectedPlan, setSelectedPlan] = useState("yearly");
@@ -31,17 +32,40 @@ const PlanPage = () => {
 
       <div className={styles.planHero}>
         <div className={styles.planHeroText}>
-            <h1 style={{color: 'white'}}>Get unlimited access to many amazing books to read</h1>
-          <h2>Turn ordinry moments into amazing learning opportunities</h2>
+            <h1 className={styles.planTitle} style={{color: 'white'}}>Get unlimited access to many amazing books to read</h1>
+          <h2 className={styles.planSubtitle}>Turn ordinry moments into amazing learning opportunities</h2>
         </div>
-        <img 
-          src="/pricing-top.png"
-          alt="Pricing Illustration" 
-          className={styles.planHeroImg} 
-          />
-    </div>
-
+       <div className={styles.arch}>
+    <img
+      src="/pricing-top.png"
+      alt="Pricing Illustration"
+      className={styles.planHeroImg}
+    />
+  </div>
+</div>
       {/* Pricing Selection */}
+      <div className={styles.heroWrapper}>
+<div className={styles.planFeaturesWrapper}>
+    <div className={styles.planFeature}>
+        <figure className={styles.planFeaturesIcon}>
+            <FaFileAlt size={60} />
+        </figure>
+        <div className={styles.planFeaturesText}> <b>Key ideas in a few min</b> with many books to read </div>
+    </div>
+    <div className={styles.planFeature}>
+        <figure className={styles.planFeaturesIcon}>
+            <RiPlantFill size={60} />
+        </figure>
+        <div className={styles.planFeaturesText}> <b>3 million</b> people growing with Summarist every day</div>
+    </div>
+    <div className={styles.planFeature}>
+        <figure className={styles.planFeaturesIcon}>
+            <FaHandshake size={60} />
+        </figure>
+        <div className={styles.planFeaturesText}> <b>Precise recommendations</b> collections curated by experts</div>
+    </div>
+</div>
+
       <div className={styles.pricingSelection}>
         <div 
           className={`${styles.planOption} ${selectedPlan === "yearly" ? styles.active : ""}`}
@@ -53,6 +77,14 @@ const PlanPage = () => {
             <div style={{ fontSize: "20px", fontWeight: 700 }}>$99.99/year</div>
             <div style={{ color: "#6b7280" }}>7 days free, then $99.99/year</div>
           </div>
+        </div>
+
+        <div className={styles.separator}>
+
+          <div className={styles.separatorLine}></div>
+          <div className={styles.separatorText}>OR</div>
+          <div className={styles.separatorLine}></div>
+        
         </div>
 
         <div 
@@ -67,10 +99,14 @@ const PlanPage = () => {
           </div>
         </div>
       </div>
+      <div className={styles.ctaWrap}>
 
       <button className={styles.ctaButton}>
         {selectedPlan === "yearly" ? "Start your free 7-day trial" : "Start your Monthly subscription"}
       </button>
+      <div className={styles.planDisclaimer}>Cancel your trial at any time before it ends,and you won't be charged.</div>
+      </div>
+
 
       {/* Accordion FAQ Section */}
       <div className={styles.accordionSection}>
@@ -89,6 +125,7 @@ const PlanPage = () => {
           </div>
         ))}
       </div>
+              </div>
     </div>
 </div>
   );
