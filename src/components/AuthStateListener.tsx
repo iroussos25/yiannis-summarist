@@ -13,25 +13,30 @@ export default function AuthStateListener() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // This listener runs every time the user's status changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is logged in
-        dispatch(setUser({ uid: user.uid, email: user.email || "Guest User"}));
-        dispatch(closeLoginModal());// Automatically close modal on success
+        dispatch(setUser({ 
+          uid: user.uid, 
+          email: user.email || "Guest User",
+          isPremium: false 
+        }));
+        
+        dispatch(closeLoginModal());
+
         if (pathname === '/') {
-        router.push('/for-you')
+          router.push('/for-you');
         }
-    
-    } else {
-        // User is logged out
+      } else {
         dispatch(clearUser());
-        router.push('/');
+        
+         if (pathname === '/player') { 
+          router.push('/');
+        }
       }
     });
 
-    return () => unsubscribe(); // Cleanup listener on unmount
-  }, [dispatch]);
+    return () => unsubscribe();
+  }, [dispatch, pathname, router]); 
 
-  return null; // This component has no UI
+  return null;
 }
