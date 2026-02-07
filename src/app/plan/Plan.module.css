@@ -168,6 +168,14 @@
   position: relative; 
 }
 
+.buttons {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 800px;
+  margin: 32px auto 0;
+  justify-content: center;
+}
 
 .ctaWrap {
   position: -webkit-sticky;
@@ -188,10 +196,9 @@
   border-top-right-radius: 20px;
 }
 
-.ctaButton {
+.ctaButton, .demoButton {
+  flex: 1;
   z-index: 70;
-  width: 100%;
-  max-width: 400px;
   padding: 16px;
   background: #2bd880;
   color: white;
@@ -200,8 +207,26 @@
   font-weight: 700;
   font-size: 18px;
   cursor: pointer;
-  display: inline-block;
+  display: flex;
   margin-bottom: 18px;
+  transition: all 0.2s ease-in-out;
+}
+
+
+.ctaButton:hover {
+  filter: brightness(0.9);
+}
+
+.demoButton {
+  background-color: transparent;
+  color: #6d7881;
+  border: 2px solid #bac1c7;
+}
+
+.demoButton:hover {
+  background-color: #2bd880;
+  color: #032b41;
+  border-color: #032b41;
 }
 
 .planDisclaimer {
@@ -235,15 +260,7 @@
 }
 
 
-/* .heroWrapper {
-    background-color: #f1f6f4;
-    border-radius: 100px 100px 0 0;
-    overflow: hidden;
-    margin-bottom: 40px;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-} */
+
 
 .planHero h2 {
   font-size: 26px;
@@ -292,4 +309,11 @@
 .accordionContent.open {
   max-height: 200px;
   padding-bottom: 24px;
+}
+
+
+@media (max-width: 480px) {
+  .buttons {
+    flex-direction: column;
+  }
 }

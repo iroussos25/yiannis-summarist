@@ -42,9 +42,12 @@ export const authSlice = createSlice({
             state.isPremium = action.payload?.subscriptionStatus === 'premium';
             state.isLoading = false;
         },
+        setPremium: (state, action: PayloadAction<boolean>) => {
+            state.isPremium = action.payload;
+        },
     },
 });
 
-export const { openLoginModal, closeLoginModal, setUser, clearUser } = authSlice.actions;
+export const { openLoginModal, closeLoginModal, setUser, clearUser, setPremium } = authSlice.actions;
 
 export default authSlice.reducer;

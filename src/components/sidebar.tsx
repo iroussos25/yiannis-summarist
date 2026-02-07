@@ -1,7 +1,7 @@
 
 'use client';
 
-import styles from './sidebar.module.css'
+import styles from './Sidebar.module.css'
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -19,6 +19,8 @@ import { BsStars } from 'react-icons/bs';
 
 
 export default function Sidebar() {
+
+    const { isPremium } = useAppSelector((state) => state.auth);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

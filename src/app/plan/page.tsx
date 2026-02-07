@@ -5,7 +5,7 @@ import styles from "./Plan.module.css";
 import { FaArrowLeft, FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
 import { RiPlantFill } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { openLoginModal } from "../redux/authSlice";
+import { openLoginModal, setPremium } from "../redux/authSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -18,11 +18,12 @@ const PlanPage = () => {
   const { user } = useAppSelector(state => state.auth);
 
   const handleSimulatedUpgrade = () => {
-    
-  }
+    dispatch(setPremium(true));
+    router.push("/success");
+  };
   
 
-  const handleCtaClick = () => { 
+  const handleRealStripePayment = () => { 
     if (!user) {
         dispatch(openLoginModal());
     } else {
@@ -50,7 +51,6 @@ const PlanPage = () => {
     <div className={styles.fullWidthContainer}>
 
     <div className={styles.planContainer}>
-      {/* Hero Graphic Section */}
 
       <div className={styles.planHero}>
         <div className={styles.planHeroText}>
@@ -65,7 +65,6 @@ const PlanPage = () => {
     />
   </div>
 </div>
-      {/* Pricing Selection */}
       <div className={styles.heroWrapper}>
         <Link href="/for-you" className={styles.backToHomeLink}>
         <FaArrowLeft size={20} />
@@ -126,15 +125,22 @@ const PlanPage = () => {
         </div>
       </div>
       <div className={styles.ctaWrap}>
-
-      <button className={styles.ctaButton} onClick={handleCtaClick}>
+      <div className={styles.buttons}>
+      <button className={styles.ctaButton} onClick={handleRealStripePayment}>
         {selectedPlan === "yearly" ? "Start your free 7-day trial" : "Start your Monthly subscription"}
       </button>
+      <button 
+    className={styles.demoButton} 
+    onClick={handleSimulatedUpgrade}
+  >
+    Instant Demo: Unlock Premium
+  </button>
+      </div>
       <div className={styles.planDisclaimer}>Cancel your trial at any time before it ends,and you won't be charged.</div>
+
       </div>
 
 
-      {/* Accordion FAQ Section */}
       <div className={styles.accordionSection}>
         {faqs.map((faq, index) => (
             <div key={index} className={styles.accordionItem}>
