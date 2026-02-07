@@ -157,7 +157,7 @@
 /* FOR SMALLER SCREENS */
 @media (max-width: 1024px) {
     .wrapper {
-        margin-left: 0;
+        /* margin-left: 0; */
         width: 100%;
         
     }

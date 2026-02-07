@@ -18,27 +18,36 @@ export default function ClientLayoutWrapper({
   
   {
     const pathname = usePathname();
+    const isAppRoute = pathname !== '/';
     const isPlanPage = pathname === '/plan';
-    
+    const isSuccessPage = pathname === '/success;'
+    const shouldShiftContent = isAppRoute && !isPlanPage && !isSuccessPage;
+   
     const isLandingPage = pathname === '/';
     const activeBook = useAppSelector((state) => state.book.activeBook);
     
-    const isAppRoute = pathname !== '/';
-    
+    const hasSidebar = isAppRoute && !isPlanPage;
+
     return (
       <>
     <AuthStateListener />
-    <div style={{ display: 'flex', minHeight: '100vh', paddingBottom: activeBook ? '80px' : '0' }}> 
+       <div className="wrapper" style={{ display: 'flex', minHeight: '100vh' }}> 
+      
+      {hasSidebar && <Sidebar />} 
       
       {isAppRoute && !isPlanPage && <Sidebar />}
 
-      <div style={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-        minWidth: 0,
-        minHeight: '100vh'
-      }}>
+        <div 
+      id="main-content-area" 
+      style={{ 
+        flex: 1,
+        marginLeft: shouldShiftContent ? '200px' : '0', 
+        width: shouldShiftContent ? 'calc(100% - 200px)' : '100%',
+        transition: 'margin 0.3s ease',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
         <div className={isAppRoute ? "app-content-wrapper" : ""}>
 
         {isLandingPage ? (<Header />) : (!isPlanPage && <AppHeader />)}
