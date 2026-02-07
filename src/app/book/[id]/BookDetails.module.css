@@ -155,6 +155,8 @@
   margin-bottom: 16px;
 }
 
+
+
 @media (max-width: 768px) {
   .innerContent { flex-direction: column-reverse; }
   .infoRight { display: flex; justify-content: center; }

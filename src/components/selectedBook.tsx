@@ -1,45 +1,61 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import styles from "./SelectedBook.module.css";
-import { AiFillAlipayCircle, AiOutlinePlayCircle } from "react-icons/ai";
+import { AiFillPlayCircle } from "react-icons/ai";
 import { Book } from "@/lib/api";
+import { useAppDispatch } from "@/app/redux/hooks";
+import { setActiveBook } from "@/app/redux/bookSlice";
+import Link from "next/link";
+import { MdAccessTime } from "react-icons/md";
 
+export default function SelectedBook({ book }: { book: Book }) {
+  const dispatch = useAppDispatch();
 
-export default function SelectedBook({ book } : { book: Book}) {
-    return (
-       <>
-        <div className={styles.forYouTitle}>Selected just for you</div>
-    <Link href={`/book/${book.id}`} className={styles.selectedBook}>
-    <div className={styles.selectedBookSubTitle}>{book.subTitle}</div>
-    <div className={styles.selectedBookLine}></div>
-    
-    <div className={styles.selectedBookContent}>
+  return (
+    <Link href={`/book/${book.id}`} className={styles.selectedBookCard}>
+      {/* LEFT SIDE: Subtitle Only */}
+      <div className={styles.leftContent}>
+        <div className={styles.subTitle}>{book.subTitle}</div>
+      </div>
 
-    <figure className={styles.bookImageWrapper}>
-        <Image 
-        src={book.imageLink}
-        alt="book"
-        width={140}
-        height={140}
-        priority
-        className={styles.bookImage}
-        />
-    </figure>
-    <div className={styles.selectedBookText}>
-        <div className={styles.selectedBookTitle}>{book.title}</div>
-        <div className={styles.SelectedBookAuthor}>{book.author}</div>
-        <div className={styles.selectedBookDurationWrapper}>
-            <div className={styles.selectedBookIcon}>
-                <AiOutlinePlayCircle size={20}/>
-            </div>
-            {book.duration && (
-                <div className={styles.selectedBookDuration}>{book.duration}</div>)}
+      {/* CENTER: Vertical Divider */}
+      <div className={styles.divider}></div>
+
+      {/* RIGHT SIDE: Image + Info Column */}
+      <div className={styles.rightContent}>
+        <div className={styles.imageWrapper}>
+          <Image 
+            src={book.imageLink} 
+            alt={book.title} 
+            width={120} 
+            height={120} 
+            className={styles.image}
+          />
         </div>
 
-    </div>
-</div>
+        <div className={styles.infoColumn}>
+          <div className={styles.title}>{book.title}</div>
+          <div className={styles.author}>{book.author}</div>
+          
+          <div className={styles.controlsRow}>
+            <div 
+              className={styles.playContainer} 
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(setActiveBook(book));
+              }}
+            >
+              <AiFillPlayCircle size={40} className={styles.playIcon} />
+              <span className={styles.playText}>Listen to summary</span>
+            </div>
+            <div className={styles.duration}>
+              <MdAccessTime size={18} />
+              <span>{book.duration || "0:00"}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </Link>
-
-       </>
-    )
+  );
 }

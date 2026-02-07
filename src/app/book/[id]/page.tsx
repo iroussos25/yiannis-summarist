@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { setActiveBook } from '@/app/redux/bookSlice';
 import { toggleFavorite } from '@/app/redux/favoritesSlice';
-import { LuClock } from 'react-icons/lu';
 import { openLoginModal } from '@/app/redux/authSlice';
+import Skeleton from '@/components/skeleton'; // Import your reusable skeleton
 
 export default function BookDetailsPage() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function BookDetailsPage() {
       return;
     }
     if (book) dispatch(toggleFavorite(book));
-    };
+  };
   
   const handleStartReading = () => {
     if (!user) {
@@ -56,7 +56,6 @@ export default function BookDetailsPage() {
         dispatch(setActiveBook(book));
         setTimeout(() => {
             router.push(`/player/${book?.id}?type=audio`)
-
         }, 10);
     }
   };
@@ -70,7 +69,57 @@ export default function BookDetailsPage() {
     }
   }, [id]);
 
-  if (loading) return <div className={styles.loading}>Loading...</div>;
+  // --- NEW REUSABLE SKELETON STATE ---
+  if (loading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.mainContent}>
+          <main className={styles.container}>
+            <div className={styles.innerContent}>
+              <div className={styles.titleBox}>
+                <div className={styles.infoLeft}>
+                  {/* Title, Author, Subtitle Skeletons */}
+                  <Skeleton width="80%" height="40px" marginBottom="12px" />
+                  <Skeleton width="40%" height="20px" marginBottom="12px" />
+                  <Skeleton width="60%" height="24px" marginBottom="32px" />
+                </div>
+                
+                <div className={styles.statsRow}>
+                  <Skeleton width="100px" height="20px" />
+                  <Skeleton width="100px" height="20px" />
+                  <Skeleton width="100px" height="20px" />
+                </div>
+
+                <div className={styles.buttonGroup}>
+                  <Skeleton width="140px" height="48px" borderRadius="4px" />
+                  <Skeleton width="140px" height="48px" borderRadius="4px" />
+                </div>
+
+                <div className={styles.libraryToggle}>
+                   <Skeleton width="180px" height="24px" />
+                </div>
+
+                <div className={styles.descriptionSection}>
+                  <Skeleton width="150px" height="24px" marginBottom="16px" />
+                  <Skeleton width="100%" height="16px" marginBottom="12px" />
+                  <Skeleton width="100%" height="16px" marginBottom="12px" />
+                  <Skeleton width="90%" height="16px" />
+                </div>
+              </div>
+
+              <div className={styles.infoRight}>
+                <div className={styles.imageContainer}>
+                  {/* Book Cover Skeleton */}
+                  <Skeleton width="300px" height="450px" borderRadius="4px" />
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   if (!book) return <div className={styles.error}>Book not found.</div>;
 
   return (
@@ -93,7 +142,6 @@ export default function BookDetailsPage() {
                 <div className={styles.stat}><AiOutlineClockCircle /> {"4:32"} </div>
                 <div className={styles.stat}><AiOutlineAudio /> {book.type}</div>
                 <div className={styles.stat}><HiOutlineLightBulb /> {book.keyIdeas} Key ideas</div>
-                
               </div>
 
               {/* READ & LISTEN BUTTONS */}
@@ -132,4 +180,4 @@ export default function BookDetailsPage() {
       </div>
     </div>
   );
-  }
+}

@@ -1,3 +1,5 @@
+'use client'
+
 import { AiFillAudio, AiFillBulb, AiFillFileText } from 'react-icons/ai';
 import './global.css'
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
@@ -5,8 +7,13 @@ import { BiCrown } from 'react-icons/bi';
 import { RiLeafLine } from 'react-icons/ri';
 import landing from "../../public/landing.png"
 import Image from 'next/image';
+import { openLoginModal } from './redux/authSlice';
+import { useAppDispatch } from './redux/hooks';
 
 export default function Home() {
+
+  const dispatch = useAppDispatch();
+
   return (
     
  
@@ -27,7 +34,7 @@ export default function Home() {
                 <br className="remove--tablet" />
                 and even people who don’t like to read.
               </div>
-              <button className="btn home__cta--btn">Login</button>
+              <button className="btn home__cta--btn" onClick={() => dispatch(openLoginModal())}>Login</button>
             </div>
             <figure className="landing__image--mask">
               <Image className="nav__img" src={landing} alt="logo" />
@@ -205,7 +212,7 @@ export default function Home() {
             </div>
           </div>
           <div className="reviews__btn--wrapper">
-            <button className="btn home__cta--btn">Login</button>
+            <button className="btn home__cta--btn" onClick={() => dispatch(openLoginModal())}>Login</button>
           </div>
         </div>
       </div>

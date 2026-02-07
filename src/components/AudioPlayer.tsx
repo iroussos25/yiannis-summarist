@@ -6,7 +6,7 @@ import styles from "./AudioPlayer.module.css";
 import Image from "next/image";
 import { IoClose, IoPlayBackSharp, IoPlayForwardSharp } from "react-icons/io5";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
-import { clearActiveBook } from "@/app/redux/bookSlice";
+import { clearActiveBook, addToFinished } from "@/app/redux/bookSlice"; // Added addToFinished
 
 const MOCK_AUDIO_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
@@ -21,6 +21,15 @@ export default function AudioPlayer() {
 
   const dispatch = useAppDispatch();
 
+  // Logic for when the book finishes
+  const handleOnEnded = () => {
+    setIsPlaying(false);
+    if (book) {
+      dispatch(addToFinished(book));
+      console.log(`Successfully added to finished: ${book.title}`);
+    }
+  };
+
   const repeat = useCallback(() => {
     if (audioRef.current) {
       const currentTime = audioRef.current.currentTime;
@@ -28,7 +37,6 @@ export default function AudioPlayer() {
       
       if (duration > 0) {
         const progressPercent = (currentTime / duration) * 100;
-        // Allows you to style the 'filled' part of the slider in CSS
         audioRef.current.style.setProperty('--range-progress', `${progressPercent}%`);
       }
       
@@ -42,11 +50,12 @@ export default function AudioPlayer() {
 
     const targetSrc = book.audioLink || MOCK_AUDIO_URL;
     
-    // Logic to update source if it changes
     if (audio.src !== targetSrc) {
       audio.src = targetSrc;
       audio.load();
       setTimeProgress(0);
+      // Optional: Auto-play when a new book is selected
+      setIsPlaying(true); 
     }
 
     if (isPlaying) {
@@ -87,7 +96,7 @@ export default function AudioPlayer() {
         ref={audioRef}
         src={book.audioLink || MOCK_AUDIO_URL}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={handleOnEnded} // Updated handler
       />
       
       <div className={styles.audioPlayerContent}>
@@ -114,25 +123,25 @@ export default function AudioPlayer() {
             <IoPlayForwardSharp size={24} />
           </button>
         </div>
-            <div className={styles.rightSection}>
 
-        <div className={styles.progressBarContainer}>
-          <span className={styles.time}>{formatTime(timeProgress)}</span>
-          <input
-            type="range"
-            className={styles.rangeInput}
-            value={timeProgress}
-            max={duration || 0}
-            onChange={handleProgressChange}
+        <div className={styles.rightSection}>
+          <div className={styles.progressBarContainer}>
+            <span className={styles.time}>{formatTime(timeProgress)}</span>
+            <input
+              type="range"
+              className={styles.rangeInput}
+              value={timeProgress}
+              max={duration || 0}
+              onChange={handleProgressChange}
+              style={{'--range-progress': `${(timeProgress / duration) * 100}%`} as any}
             />
-          <span className={styles.time}>{formatTime(duration)}</span>
+            <span className={styles.time}>{formatTime(duration)}</span>
+          </div>
+          <button className={styles.closeBtn} onClick={() => dispatch(clearActiveBook())}>
+            <IoClose size={24} />
+          </button>
         </div>
-        <button className={styles.closeBtn} onClick={() => dispatch(clearActiveBook())}>
-          <IoClose size={24} />
-        </button>
       </div>
-
-    </div>
     </div>
   );
 }

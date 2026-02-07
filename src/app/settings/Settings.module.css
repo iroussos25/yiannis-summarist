@@ -1,0 +1,89 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #032b41;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 16px;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #032b41;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: #f1f6f4;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.statusText {
+  font-size: 16px;
+  color: #032b41;
+  margin: 0;
+}
+
+.emailText {
+  font-size: 16px;
+  color: #032b41;
+  font-weight: 500;
+  margin: 0;
+}
+
+.upgradeBtn {
+  background-color: #2bd880;
+  color: #032b41;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.upgradeBtn:hover {
+  background-color: #20ad65;
+}
+
+.logoutBtn {
+  background: none;
+  border: 1px solid #dcdfe0;
+  color: #032b41;
+  padding: 12px 32px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 20px;
+}
+
+.logoutBtn:hover {
+  background-color: #f1f6f4;
+  border-color: #032b41;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-weight: 500;
+  color: #6d7881;
+}

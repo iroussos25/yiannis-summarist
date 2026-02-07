@@ -5,15 +5,41 @@
   margin-bottom: 16px;
 }
 
-.selectedBook {
+.selectedBookCard {
   background-color: #fbefd6;
   width: 100%;
   padding: 24px;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 20px;
   text-decoration: none;
+  max-width: 650px;
   border-radius: 4px;
+}
+
+.leftContent {
+  flex: 0 0 35%; 
+  font-size: 14px;
+  color: #032b41;
+  line-height: 1.4;
+}
+
+.divider {
+  width: 1px;
+  height: 100px;
+  background-color: #bac1c7;
+  margin: 0 10px;
+}
+
+.rightContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.content {
+  flex: 1;
 }
 
 .selectedBookSubTitle {
@@ -71,10 +97,69 @@
   gap: 8px;
 }
 
+.imageWrapper {
+  flex-shrink: 0; 
+}
+
 .selectedBookIcon {
   display: flex;
   align-items: center;
   color: #032b41;
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #032b41;
+}
+
+.author {
+  font-size: 14px;
+  color: #6d7881;
+  margin-bottom: 8px;
+}
+
+.controlsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.playContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.playIcon {
+  color: #032b41;
+  transition: transform 0.2s;
+}
+
+.playIcon:hover {
+  transform: scale(1.1);
+}
+
+.playText {
+  font-size: 14px;
+  font-weight: 700;
+  color: #032b41;
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #032b41;
+  font-weight: 500;
 }
 
 .selectedBookDuration {

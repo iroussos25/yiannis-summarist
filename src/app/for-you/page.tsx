@@ -1,11 +1,11 @@
 "use client";
-import cardStyles from "@/components/BookCard.module.css"
 import styles from "./ForYou.module.css"
 import { useEffect, useState } from "react";
 import { Book, fetchRecommendedBooks, fetchSelectedBook, fetchSuggestedBooks } from "@/lib/api";
 import SelectedBook from "@/components/selectedBook";
 import BookCard from "@/components/bookCard";
-import Skeleton from "@/components/skeleton";
+import SelectedBookSkeleton from "@/components/selectedBookSkeleton";
+import BookCardSkeleton from "@/components/bookCardSkeleton";
 
 export default function ForYouPage() {
 
@@ -65,22 +65,10 @@ return (
     <div className={styles.wrapper}>
       <div className={styles.mainContent}>
         <main className={styles.container}>
+      <div className={styles.sectionTitle}>Selected Just For You</div>
       <div className={styles.row}>
             {loading ? (
-                <div style={{display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px'}}>
-                    <Skeleton width="200px" height="28px"/>
-                    <div
-                    style={{
-                        display: 'flex', backgroundColor: '#f1f6f4', padding: '24px', gap: '24px', borderRadius: '4px'
-                    }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <Skeleton width="80%" height="20px" /> 
-          <Skeleton width="40%" height="24px" /> 
-          <Skeleton width="30%" height="18px" /> 
-        </div>
-        <Skeleton width="140px" height="140px" />
-      </div>
-    </div>
+                <SelectedBookSkeleton />
      ) : (
       selectedBook && <SelectedBook book={selectedBook} /> 
       )}
@@ -91,11 +79,8 @@ return (
             
             {loading ? (
                 [...Array(5)].map((_, i) => (
-                    <div key={i} className={cardStyles.bookCard} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Skeleton width="172px" height="172px" />
-                <Skeleton width="140" height="16px" />
-                <Skeleton width="100px" height="14px" />
-                </div>
+    Array(5).fill(0).map((_, i) => <BookCardSkeleton key={i} />)
+
 
 ))
 ) :(
@@ -113,14 +98,8 @@ return (
         <div className={styles.booksWrapper}>
 
         {loading ? (
-            [...Array(5)].map((_, i) => (
-                <div key={i} className={cardStyles.bookCard} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Skeleton width="172px" height="172px" />
-                <Skeleton width="140" height="16px" />
-                <Skeleton width="100px" height="14px" />
-                </div>
+            Array(5).fill(0).map((_, i) => <BookCardSkeleton key={i} />)
 
-))
 ) : (
     
     suggestedBooks.map((book) => 
