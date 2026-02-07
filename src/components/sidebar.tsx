@@ -20,14 +20,19 @@ import { BsStars } from 'react-icons/bs';
 
 export default function Sidebar() {
 
-    const isPremium = useAppSelector((state) => state.auth);
-    const sidebarClasses = `${styles.sidebar} ${isPremium ? styles.sidebarPremium : ''}`;
-
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-  const activeBook = useAppSelector((state) => state.book.activeBook);
+    const isPremium = useAppSelector((state) => state.auth.isPremium);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const sidebarClasses = [
+        styles.sidebar,
+        isSidebarOpen ? styles.sidebarOpen : "",
+        isPremium ? styles.sidebarPremium : ""
+    ].join(' ').trim(); 
+    
+    
+    const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.auth.user);
+    const activeBook = useAppSelector((state) => state.book.activeBook);
+    const contentPadding = { paddingBottom: activeBook ? '80px' : '20px' };
 
    const handleAuth = async () => {
         if (user) {
@@ -48,8 +53,8 @@ export default function Sidebar() {
             </div>
             <div className={`${styles.sidebarOverlay} ${isSidebarOpen ? styles.sidebarOverlayVisible : ""}`} onClick={() => setIsSidebarOpen(false)}>
             </div>
-            <div className={`${styles.sidebar} ${isSidebarOpen ? styles.sidebarOpen : ""}`}>
-                <div className={styles.sidebarContent} style={{ paddingBottom: activeBook ? '80px' : '20px'}}>
+            <div className={sidebarClasses}>
+                <div className={styles.sidebarContent} style={contentPadding}>
 
                     <div className={styles.sidebarLogo}>
                         <Image src="/logo.png" alt="logo" width={160} height={40} />
@@ -83,10 +88,21 @@ export default function Sidebar() {
 
                       
                         <div className={styles.sidebarPremiumSection}>
-                            <Link href="/plan" className={styles.sidebarPremiumButton}>
-                                <div className={styles.sidebarIconWrapper}><BsStars size={24} /></div>
-                                <div className={styles.sidebarPremiumButtonText}>Go Premium!</div>
-                            </Link>
+                             {isPremium ? (
+        <div className={styles.premiumBadge}>
+            <div className={styles.sidebarIconWrapper}>
+                <BsStars size={24} />
+            </div>
+            <div className={styles.premiumBadgeText}>Premium User</div>
+        </div>
+    ) : (
+        <Link href="/plan" className={styles.sidebarPremiumButton}>
+            <div className={styles.sidebarIconWrapper}>
+                <BsStars size={24} />
+            </div>
+            <div className={styles.sidebarPremiumButtonText}>Go Premium!</div>
+        </Link>
+    )}
                         </div>
 
 

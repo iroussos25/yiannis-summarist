@@ -12,7 +12,9 @@ import { signInAnonymously,
     sendPasswordResetEmail} from "firebase/auth";
 import { closeLoginModal } from "@/app/redux/authSlice";
 import { useAppDispatch } from "@/app/redux/hooks";
-
+import { db } from "@/lib/firebase"; 
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { setPremium } from "@/app/redux/authSlice";
 export default function Authenticator() {
 
 const dispatch = useAppDispatch();
@@ -38,9 +40,22 @@ const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault(); 
     setLoading(true);
     try {
+        let userCredential;
         if (isLoginMode) {
-            await signInWithEmailAndPassword( auth, email, password);
-    } else {
+         userCredential = await signInWithEmailAndPassword( auth, email, password);
+   
+            const user = userCredential.user;
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+   
+              if (userSnap.exists()) {
+                const userData = userSnap.data();
+                if (userData.isPremium || userData.subscriptionStatus === 'premium') {
+                    dispatch(setPremium(true));
+                }
+            }
+
+        } else {
         await createUserWithEmailAndPassword(auth, email, password);
         console.log("Account Created Successfully!")
     }
@@ -56,9 +71,15 @@ const handleAuth = async (e: React.FormEvent) => {
 const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     setLoading(true);
-    
     try {
-        await signInWithPopup(auth, provider);
+        const result = await signInWithPopup(auth, provider);
+        
+        const userRef = doc(db, "users", result.user.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists() && userSnap.data().isPremium) {
+            dispatch(setPremium(true));
+        }
+
         dispatch(closeLoginModal());
     } catch (error: any) {
         console.error("Google Login Error", error.message);
@@ -67,19 +88,31 @@ const handleGoogleLogin = async () => {
     }
 };
 
+
 const handleGuestLogin = async () => {
     setLoading(true);
     try {
-        await signInAnonymously(auth);
-       
-        dispatch(closeLoginModal());
+        const result = await signInAnonymously(auth);
+        const user = result.user;
 
+        const userRef = doc(db, "users", user.uid);
+        await setDoc(userRef, {
+            isPremium: true,
+            subscriptionStatus: "premium",
+            email: "Guest User"
+        });
+
+        dispatch(setPremium(true)); 
+        dispatch(closeLoginModal());
     } catch (error: any) {
-        console.error("Guest login failed:", error.message);
+        console.error("Guest setup failed:", error.message);
+        dispatch(closeLoginModal());
     } finally {
         setLoading(false);
     }
 };
+
+
 
     return (
 <div className="auth__wrapper">
