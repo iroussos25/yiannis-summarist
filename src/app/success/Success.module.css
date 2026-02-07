@@ -4,6 +4,7 @@
   align-items: center;
   min-height: 80vh; /* Centers it vertically in the viewport */
   padding: 24px;
+  width: calc(100vw - 200px);
 }
 
 .card {

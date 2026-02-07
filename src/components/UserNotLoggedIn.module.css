@@ -4,6 +4,7 @@
   align-items: center;
   min-height: 80vh;
   padding: 20px;
+  width: calc(100vw - 200px);
 }
 
 .content {

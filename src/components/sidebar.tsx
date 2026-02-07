@@ -20,7 +20,8 @@ import { BsStars } from 'react-icons/bs';
 
 export default function Sidebar() {
 
-    const { isPremium } = useAppSelector((state) => state.auth);
+    const isPremium = useAppSelector((state) => state.auth);
+    const sidebarClasses = `${styles.sidebar} ${isPremium ? styles.sidebarPremium : ''}`;
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
