@@ -80,10 +80,10 @@
 }
 
 .summaryText {
-    line-height: 1.6; /* Critical for readability */
-    white-space: pre-wrap; /* Keeps the paragraph spacing from the API */
+    line-height: 1.6; 
+    white-space: pre-wrap; 
     color: #032b21;
-    transition: font-size 0.2s ease, color 0.3s ease; /* Makes resizing feel smooth */
+    transition: font-size 0.2s ease, color 0.3s ease; 
 }
 
 .darkTheme .summaryText {

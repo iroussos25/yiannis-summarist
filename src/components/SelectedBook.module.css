@@ -168,7 +168,6 @@
   color: #032b41;
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
   .selectedBookSubTitle {
     width: 100%;

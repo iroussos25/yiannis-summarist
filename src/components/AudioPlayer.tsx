@@ -54,7 +54,6 @@ export default function AudioPlayer() {
       audio.src = targetSrc;
       audio.load();
       setTimeProgress(0);
-      // Optional: Auto-play when a new book is selected
       setIsPlaying(true); 
     }
 

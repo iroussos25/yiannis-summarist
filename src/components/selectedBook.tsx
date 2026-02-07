@@ -14,15 +14,12 @@ export default function SelectedBook({ book }: { book: Book }) {
 
   return (
     <Link href={`/book/${book.id}`} className={styles.selectedBookCard}>
-      {/* LEFT SIDE: Subtitle Only */}
       <div className={styles.leftContent}>
         <div className={styles.subTitle}>{book.subTitle}</div>
       </div>
 
-      {/* CENTER: Vertical Divider */}
       <div className={styles.divider}></div>
 
-      {/* RIGHT SIDE: Image + Info Column */}
       <div className={styles.rightContent}>
         <div className={styles.imageWrapper}>
           <Image 

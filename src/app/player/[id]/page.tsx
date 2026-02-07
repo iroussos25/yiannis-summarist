@@ -48,14 +48,12 @@ export default function PlayerPage() {
             </button>
             </div>
 
-            {/* The Actual Reader */}
             <div className={styles.readerContainer}>
                 <h1 className={styles.title}>{book.title}</h1>
                 <div 
                     className={styles.summaryText} 
                     style={{ fontSize: `${fontSize}px` }}
                 >
-                    {/* We use the 'summary' field here for the full content */}
                     {book.summary}
                 </div>
             </div>

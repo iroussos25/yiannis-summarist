@@ -90,7 +90,6 @@ button:disabled {
 
 
 
-/* HOME */
 .section__title {
   font-size: 32px;
   color: #032b41;
@@ -99,7 +98,6 @@ button:disabled {
   font-weight: bold;
 }
 
-/* SPINNER */
 .spinner {
   width: 20px;
   height: 20px;
@@ -113,7 +111,6 @@ button:disabled {
   to { transform: rotate(360deg); }
 }
 
-/* AUTHENTICATOR */
 .auth {
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
     position: relative;

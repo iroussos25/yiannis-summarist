@@ -9,12 +9,17 @@ import { openLoginModal } from "../redux/authSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+
 const PlanPage = () => {
   const [selectedPlan, setSelectedPlan] = useState("yearly");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { user } = useAppSelector(state => state.auth);
+
+  const handleSimulatedUpgrade = () => {
+    
+  }
   
 
   const handleCtaClick = () => { 
@@ -146,7 +151,7 @@ const PlanPage = () => {
           </div>
         ))}
       </div>
-              </div>
+     </div>
     </div>
 </div>
   );
