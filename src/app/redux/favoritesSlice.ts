@@ -23,8 +23,11 @@ export const favoritesSlice = createSlice({
                 state.items.push(action.payload);
             }
           },
+          setFavorites: (state, action: PayloadAction<Book[]>) => {
+            state.items = action.payload;
+        },
         },
     });
 
-    export const { toggleFavorite } = favoritesSlice.actions;
+    export const { toggleFavorite, setFavorites } = favoritesSlice.actions;
     export default favoritesSlice.reducer;

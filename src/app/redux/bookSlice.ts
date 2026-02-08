@@ -27,8 +27,11 @@ export const bookSlice = createSlice({
                 state.finishedBooks.push(action.payload);
             }
         },
+        setFinishedBooks: (state, action: PayloadAction<Book[]>) => {
+            state.finishedBooks = action.payload;
+        },
     },
 });
 
-export const { setActiveBook, clearActiveBook, addToFinished } = bookSlice.actions;
+export const { setActiveBook, clearActiveBook, addToFinished, setFinishedBooks } = bookSlice.actions;
 export default bookSlice.reducer;

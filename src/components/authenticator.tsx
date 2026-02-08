@@ -62,7 +62,7 @@ const handleAuth = async (e: React.FormEvent) => {
         dispatch(closeLoginModal());
         console.log("Success!")
     } catch (error: any) {
-        alert((isLoginMode ? "Login failed:" : "Signup failed:") + error.message);
+        console.error((isLoginMode ? "Login failed:" : "Signup failed:") + error.message);
     } finally {
         setLoading(false); 
     }
