@@ -1,10 +1,17 @@
-import CheckoutForm from "@/components/checkoutForm";
 import { Suspense } from "react";
 
+import CheckoutClient from "./separate";
+
 export default function CheckoutPage() {
-  return (
-    <Suspense fallback={<div>Loading checkout...</div>}>
-      <CheckoutForm />
-    </Suspense>
-  );
+
+return (
+
+<Suspense fallback={<div>Loading checkout...</div>}>
+
+<CheckoutClient/>
+
+</Suspense>
+
+);
+
 }
