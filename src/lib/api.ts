@@ -24,10 +24,7 @@ export interface Book {
 
 const API_URL = "https://us-central1-summaristt.cloudfunctions.net";
 
-/**
- * Helper to generate a realistic summary duration (8-15 mins)
- * since the API does not provide this field.
- */
+
 const generateMockDuration = () => {
   const mins = Math.floor(Math.random() * (15 - 8 + 1) + 8); 
   const secs = Math.floor(Math.random() * 60);

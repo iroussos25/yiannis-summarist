@@ -14,16 +14,14 @@ export default function SuccessPage() {
    const user = useAppSelector((state) => state.auth.user);
    const hasUpgraded = useRef(false);
 
-   // 1. Add this Ref at the top of your SuccessPage component
 const hasRun = useRef(false);
 
 useEffect(() => {
   const upgradeUser = async () => {
-    // Check our Ref 'Lock' - if it's already true, go away!
     if (hasRun.current) return;
     
     if (user?.uid && db) {
-      hasRun.current = true; // Set the lock to true immediately
+      hasRun.current = true; 
       
       try {
         console.log("DORI DEBUG: Single-fire upgrade starting...");
@@ -42,7 +40,7 @@ useEffect(() => {
         
       } catch (error) {
         console.error("Check 3: Firebase Update FAILED", error);
-        hasRun.current = false; // Reset lock only if it actually fails
+        hasRun.current = false; 
       }
     }
   };

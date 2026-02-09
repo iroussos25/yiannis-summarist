@@ -631,7 +631,7 @@ z-index: 9999;
 .audioPlayerWrapper {
   position: fixed;
   bottom: 0;
-  left: 200px; /* Offset for your sidebar */
+  left: 200px; 
   right: 0;
   height: 80px;
   background-color: #042330;

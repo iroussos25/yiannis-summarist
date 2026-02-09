@@ -6,7 +6,6 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Theme Styles */
 .darkTheme {
     background-color: #1a1d1e; 
     color: #f1f6f4;           
@@ -97,7 +96,6 @@
     color: #f1f6f4;
 }
 
-/* Tablet & Mobile Breakpoints */
 @media (max-width: 1024px) {
     .readerContainer {
         max-width: 90%; 

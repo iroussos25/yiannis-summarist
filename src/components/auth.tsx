@@ -2,7 +2,6 @@
 
 import { EmailAuthProvider, GoogleAuthProvider } from "firebase/auth/web-extension";
 import { useEffect } from "react";
-import { auth } from '@/lib/firebase';
 import Authenticator from "./authenticator";
 
 

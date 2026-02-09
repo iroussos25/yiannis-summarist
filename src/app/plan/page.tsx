@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Plan.module.css";
 import { FaArrowLeft, FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
 import { RiPlantFill } from "react-icons/ri";

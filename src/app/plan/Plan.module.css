@@ -103,7 +103,7 @@
   align-items: flex-end;    
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(3, 43, 65, 0.06); /* optional */
+  box-shadow: 0 6px 20px rgba(3, 43, 65, 0.06);
 }
 .planHeroText {
     max-width: 80%;
@@ -283,7 +283,6 @@
 
 }
 
-/* Accordion Section */
 .accordionSection {
   margin-top: 60px;
   text-align: left;

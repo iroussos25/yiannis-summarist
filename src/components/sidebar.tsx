@@ -117,7 +117,7 @@ export default function Sidebar() {
                             <div className={styles.sidebarLinkWrapper}>
                                 <div className={styles.sidebarLinkLine}></div>
                                 <div className={styles.sidebarIconWrapper}><FiHelpCircle size={24} /></div>
-                                <div className={styles.sidebarLinkText}>Help & Support</div>
+                                <div className={`${styles.sidebarLinkWrapper} ${styles.sidebarLinkNotAllowed}`}>Help & Support</div>
                             </div>
                             <div className={styles.sidebarLinkWrapper} onClick={handleAuth}>
                                 <div className={styles.sidebarLinkLine}></div>

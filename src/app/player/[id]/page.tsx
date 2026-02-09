@@ -20,7 +20,6 @@ export default function PlayerPage() {
     const [fontSize, setFontSize] = useState(16);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
-    // Guards & Hydration (Your logic here is solid!)
     useEffect(() => {
         if (!isLoading && user && !isPremium) {
             dispatch(clearActiveBook()); 
@@ -43,7 +42,6 @@ export default function PlayerPage() {
         }
     }, [id, book, user, isPremium, dispatch]);
 
-    // --- RENDER LOGIC ---
 
     if (isLoading) return <div className="loading-state">Loading...</div>;
     
@@ -51,7 +49,6 @@ export default function PlayerPage() {
 
     if (!isPremium) return null;
 
-    // SKELETON STATE
     if (!book) {
         return (
             <div className={styles.playerPageWrapper}>
@@ -72,7 +69,6 @@ export default function PlayerPage() {
         );
     }
 
-    // FINAL CONTENT STATE
     return (
         <div className={`${styles.playerPageWrapper} ${isDarkMode ? styles.darkTheme : ""}`}>
             <div className={styles.settingsBar}>

@@ -29,7 +29,6 @@ export default function Authenticator() {
     const [loading, setLoading] = useState(false);
     const [isLoginMode, setIsLoginMode] = useState(true);
 
-    // Helper: Fetch premium status from Firestore
     const fetchPremiumStatus = async (uid: string) => {
         try {
             const userRef = doc(db, "users", uid);
@@ -57,7 +56,6 @@ export default function Authenticator() {
                 user = userCredential.user;
             }
 
-            // Sync Premium status before closing modal to prevent "Flicker"
             const isPremium = await fetchPremiumStatus(user.uid);
 
             dispatch(setAuthState({ 
@@ -100,7 +98,6 @@ export default function Authenticator() {
         try {
             const result = await signInAnonymously(auth);
             
-            // Guests always start as basic unless they hit the simulated upgrade
             dispatch(setAuthState({ 
                 user: { uid: result.user.uid, email: "Guest User" }, 
                 isPremium: false 

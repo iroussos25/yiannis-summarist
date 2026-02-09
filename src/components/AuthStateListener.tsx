@@ -18,32 +18,26 @@ export default function AuthStateListener() {
   const favorites = useAppSelector((state) => state.favorites.items);
   const finished = useAppSelector((state) => state.book.finishedBooks);
   
-  // Track if we've already synced this session to prevent re-runs on nav
   const hasSynced = useRef(false);
-  // Get the CURRENT state of premium to prevent 'flickering' back to basic
   const { user: reduxUser, isPremium } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // 1. FAST PATH: If already logged in and synced, do nothing
         if (reduxUser?.uid === user.uid && hasSynced.current) {
           return;
         }
 
-        // 2. OPTIMISTIC UPDATE: Set user & preserve current UI premium state
         dispatch(setAuthState({ 
           user: { uid: user.uid, email: user.email }, 
           isPremium: isPremium 
         }));
 
-        // 3. FAST REDIRECT: Landing -> Dashboard
         if (pathname === '/') {
           router.push('/for-you');
           dispatch(closeLoginModal());
         }
 
-        // 4. THE SYNC: Wait 2 seconds for Firebase stabilization
         const syncData = async () => {
           try {
             await new Promise(resolve => setTimeout(resolve, 2000));
@@ -55,7 +49,6 @@ export default function AuthStateListener() {
               const data = userSnap.data();
               const dbPremium = !!(data.isPremium || data.subscriptionStatus === 'premium');
               
-              // Only update Redux if database disagrees with current UI
               if (dbPremium !== isPremium || !hasSynced.current) {
                 dispatch(setAuthState({ 
                   user: { uid: user.uid, email: user.email }, 
@@ -64,7 +57,6 @@ export default function AuthStateListener() {
               }
             }
             
-            // 5. LIBRARY SYNC: Fetch data from Firestore
             const [favsSnap, finishedSnap] = await Promise.all([
               getDocs(collection(db, "users", user.uid, "favorites")),
               getDocs(collection(db, "users", user.uid, "finishedBooks"))
@@ -74,15 +66,12 @@ export default function AuthStateListener() {
 const dbFinished = finishedSnap.docs.map(d => ({ id: d.id, ...d.data() })) as Book[];
 
 
-            // ONLY overwrite local Redux if it's currently empty
-            // This prevents the 'Instant Disappear' bug after an upgrade
           if (dbFavs.length > 0) {
     dispatch(setFavorites(dbFavs));
 } else {
     console.log("DORI DEBUG: DB Favorites empty, preserving local items.");
 }
 
-// 2. GUARD FOR FINISHED: Same logic here
 if (dbFinished.length > 0) {
     dispatch(setFinishedBooks(dbFinished));
 } else {
@@ -100,7 +89,6 @@ if (dbFinished.length > 0) {
         syncData();
 
       } else {
-        // 6. LOGOUT CLEANUP
         hasSynced.current = false;
         dispatch(clearUser());
         dispatch(clearActiveBook());

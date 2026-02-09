@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/app/redux/hooks';
 import { setActiveBook } from '@/app/redux/bookSlice';
 import { toggleFavorite } from '@/app/redux/favoritesSlice';
 import { openLoginModal } from '@/app/redux/authSlice';
-import Skeleton from '@/components/skeleton'; // Import your reusable skeleton
+import Skeleton from '@/components/skeleton'; 
 
 export default function BookDetailsPage() {
   const router = useRouter();
@@ -48,21 +48,17 @@ export default function BookDetailsPage() {
 }
 
   const handleStartListening = () => {
-    // 1. Guard: No User
     if (!user) {
         dispatch(openLoginModal());
         return;
     }
 
-    // 2. Guard: No Premium
-    // We check the specific isPremium selector we just fixed
     if (!isPremium) {
         console.log("Paywall triggered: User is not premium");
         router.push('/plan');
         return;
     }
 
-    // 3. Success: Start the Player
     if (book) {
         dispatch(setActiveBook(book));
         router.push(`/player/${book.id}?type=audio`);

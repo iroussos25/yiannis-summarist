@@ -2,12 +2,12 @@
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import LoginModal from "@/components/LoginModal";
 import AuthStateListener from "@/components/AuthStateListener";
 import { usePathname } from "next/navigation";
 import AppHeader from "./AppHeader";
 import Sidebar from "./sidebar";
 import { useAppSelector } from "@/app/redux/hooks";
+import LoginModal from "./LoginModal";
 
 
 export default function ClientLayoutWrapper({

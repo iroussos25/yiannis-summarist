@@ -23,7 +23,6 @@ export default function AudioPlayer() {
 
   const dispatch = useAppDispatch();
 
-  // Logic for when the book finishes
   const handleOnEnded = () => {
     setIsPlaying(false);
     if (book) {
@@ -49,11 +48,10 @@ export default function AudioPlayer() {
   useEffect(() => {
      const audio = audioRef.current;
     
-    // IF THE BOOK IS CLEARED, KILL THE AUDIO IMMEDIATELY
     if (!book) {
       if (audio) {
         audio.pause();
-        audio.src = ""; // Clear the source so it stops buffering
+        audio.src = ""; 
       }
       setIsPlaying(false);
       return;
@@ -102,8 +100,8 @@ export default function AudioPlayer() {
   if (!book) return null;
 
   const handleClosePlayer = () => {
-  // 1. SILENCE THE AUDIO (Keep this!)
-  if (audioRef.current) {
+
+    if (audioRef.current) {
     audioRef.current.pause();
     audioRef.current.src = "";
   }
@@ -111,12 +109,9 @@ export default function AudioPlayer() {
     cancelAnimationFrame(playAnimationRef.current);
   }
 
-  // 2. CLEAR THE BRAIN
   setIsPlaying(false);
   dispatch(clearActiveBook());
   
-  // 3. RUN AWAY (The essential part)
-  // This kills the PlayerPage component so it can't "re-hydrate" the book
   if (pathname.includes('/player')) {
     router.push('/for-you');
   }
@@ -130,7 +125,7 @@ export default function AudioPlayer() {
         ref={audioRef}
         src={book.audioLink || MOCK_AUDIO_URL}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={handleOnEnded} // Updated handler
+        onEnded={handleOnEnded} 
       />
       
       <div className={styles.audioPlayerContent}>

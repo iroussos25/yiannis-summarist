@@ -5,7 +5,6 @@
 .row {
   max-width: 1070px;
   width: 100%;
-  /* margin: 0 auto; */
   padding: 0 24px;
 }
 
@@ -183,11 +182,12 @@
                     }
                 }
                 /* FOR SMALLER SCREENS */
-                /* @media (max-width: 750px) {
+                @media (max-width: 750px) {
                     .wrapper {
                         margin-left: 0;
                         width: 100%;
                         
-                    } */
+                    } 
+                }
               
-/* } */
+
