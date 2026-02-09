@@ -102,23 +102,26 @@ export default function AudioPlayer() {
   if (!book) return null;
 
   const handleClosePlayer = () => {
-  // 1. Stop the physical audio first
+  // 1. SILENCE THE AUDIO (Keep this!)
   if (audioRef.current) {
     audioRef.current.pause();
     audioRef.current.src = "";
   }
-  dispatch(clearActiveBook());
-  setIsPlaying(false);
-  // 2. Clear local animation frames
   if (playAnimationRef.current) {
     cancelAnimationFrame(playAnimationRef.current);
   }
-  // 3. Clear local play state
-  // 4. Finally, tell Redux to forget the book
+
+  // 2. CLEAR THE BRAIN
+  setIsPlaying(false);
+  dispatch(clearActiveBook());
+  
+  // 3. RUN AWAY (The essential part)
+  // This kills the PlayerPage component so it can't "re-hydrate" the book
   if (pathname.includes('/player')) {
     router.push('/for-you');
   }
 };
+
 
     
   return (
