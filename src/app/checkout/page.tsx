@@ -7,6 +7,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/checkoutForm"; 
 import { useSearchParams } from "next/navigation"; 
 import { useAppSelector } from '@/app/redux/hooks'; 
+import { Suspense } from "react";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -60,6 +61,8 @@ export default function CheckoutPage() {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <div style={{
       display: 'flex',
       justifyContent: 'center',
@@ -76,5 +79,6 @@ export default function CheckoutPage() {
         <div className="spinner" style={{ margin: 'auto' }}></div> 
       )}
     </div>
+      </Suspense>
   );
 }
