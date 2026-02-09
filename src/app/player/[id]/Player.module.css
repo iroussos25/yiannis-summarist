@@ -45,9 +45,13 @@
 
 .settingsBar {
     border-bottom: 1px solid #e1e7ea;
-    padding: 16px 32px;
+    padding: 16px 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin-left: 80px;
+    margin-right: auto;
 }
 
 .fontSizeControls {
@@ -68,7 +72,11 @@
 
 .readerContainer {
     max-width: 800px;
+    margin-left: 80px;
+    margin-right: auto;
     padding: 40px 24px 120px; 
+    display: flex;
+    flex-direction: column;
 }
 
 .title {
@@ -79,7 +87,7 @@
 }
 
 .summaryText {
-    line-height: 1.6; 
+    line-height: 1.8; 
     white-space: pre-wrap; 
     color: #032b21;
     transition: font-size 0.2s ease, color 0.3s ease; 
@@ -94,6 +102,10 @@
     .readerContainer {
         max-width: 90%; 
         padding: 30px 15px 100px;
+         margin: 0 auto;
+    }
+    .settingsBar {
+        margin: 0 auto;
     }
 }
 
@@ -101,6 +113,7 @@
     .settingsBar {
         flex-direction: column; 
         gap: 15px;
+       
     }
     
     .title {

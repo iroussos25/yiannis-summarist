@@ -42,20 +42,37 @@ const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault(); 
     setLoading(true);
     try {
+        let userCredential;
         if (isLoginMode) {
-            await signInWithEmailAndPassword(auth, email, password);
+            // 1. Perform Auth
+            userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // 2. IMMEDIATE SYNC: Fetch premium status before closing the modal
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+   
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+                const premiumStatus = userData.isPremium || userData.subscriptionStatus === 'premium';
+                // Dispatch BEFORE we navigate
+                dispatch(setPremium(premiumStatus));
+            }
         } else {
             await createUserWithEmailAndPassword(auth, email, password);
         }
 
+        // 3. SUCCESS
         dispatch(closeLoginModal());
         router.push("/for-you"); 
+
     } catch (error: any) {
         alert((isLoginMode ? "Login failed: " : "Signup failed: ") + error.message);
     } finally {
         setLoading(false); 
     }
 };
+
 
 const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();

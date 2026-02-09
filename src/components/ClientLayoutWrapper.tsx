@@ -7,7 +7,6 @@ import AuthStateListener from "@/components/AuthStateListener";
 import { usePathname } from "next/navigation";
 import AppHeader from "./AppHeader";
 import Sidebar from "./sidebar";
-import AudioPlayer from "./AudioPlayer";
 import { useAppSelector } from "@/app/redux/hooks";
 
 
@@ -61,7 +60,6 @@ export default function ClientLayoutWrapper({
       </div>
     </div>
     <LoginModal />
-    <AudioPlayer />
         </>
 );
     }
