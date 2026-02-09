@@ -25,29 +25,19 @@ export const authSlice = createSlice({
         closeLoginModal: (state) => {
             state.isModalOpen = false;
         },
-        setUser: (state, action: PayloadAction<AuthState["user"]>) => {
-            state.user = {
-                uid: action.payload.uid,
-                email: action.payload.email
-            };
-            state.isPremium = action.payload.isPremium || false;
+        setAuthState: (state, action: PayloadAction<{ user: any; isPremium: boolean }>) => {
+            state.user = action.payload.user;
+            state.isPremium = action.payload.isPremium;
             state.isLoading = false;
         },
         clearUser: (state) => {
-            state.user = null; 
+            state.user = null;
+            state.isPremium = false;
             state.isLoading = false;
-        },
-        setLogin: (state, action: PayloadAction<AuthState["user"]>) => {
-            state.user = action.payload;
-            state.isPremium = action.payload?.subscriptionStatus === 'premium';
-            state.isLoading = false;
-        },
-        setPremium: (state, action: PayloadAction<boolean>) => {
-            state.isPremium = action.payload;
         },
     },
 });
 
-export const { openLoginModal, closeLoginModal, setUser, clearUser, setPremium } = authSlice.actions;
+export const { openLoginModal, closeLoginModal, setAuthState, clearUser } = authSlice.actions;
 
 export default authSlice.reducer;

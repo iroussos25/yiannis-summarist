@@ -1,7 +1,8 @@
 .container {
   max-width: 800px;
-  margin: 0 auto;
   padding: 40px 24px;
+  margin-left:  80 px;
+  margin-right: auto;
 }
 
 .pageTitle {
@@ -86,4 +87,11 @@
   height: 50vh;
   font-weight: 500;
   color: #6d7881;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    margin-left: auto; 
+    padding: 40px 20px;
+  }
 }

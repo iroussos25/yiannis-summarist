@@ -8,6 +8,7 @@ import { setActiveBook, clearActiveBook } from "@/app/redux/bookSlice";
 import { useParams, useRouter } from "next/navigation";
 import AudioPlayer from "@/components/AudioPlayer";
 import UserNotLoggedIn from "@/components/UserNotLoggedIn";
+import Skeleton from "@/components/skeleton";
 
 export default function PlayerPage() {
     const { user, isLoading, isPremium } = useAppSelector((state) => state.auth);
@@ -19,26 +20,16 @@ export default function PlayerPage() {
     const [fontSize, setFontSize] = useState(16);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
-    // 1. AUTH GUARD: Check login status first
-    useEffect(() => {
-        if (!isLoading && !user) {
-            // UserNotLoggedIn component handles the UI, so no router push needed here
-        }
-    }, [user, isLoading]);
-
-    // 2. PREMIUM GUARD: Evict non-premium users
+    // Guards & Hydration (Your logic here is solid!)
     useEffect(() => {
         if (!isLoading && user && !isPremium) {
-            console.log("Access Denied: Premium required.");
-            dispatch(clearActiveBook()); // Kill the audio state
-            router.push('/plan');        // Boot them to the pricing page
+            dispatch(clearActiveBook()); 
+            router.push('/plan');        
         }
     }, [isPremium, user, isLoading, dispatch, router]);
 
-    // 3. HYDRATION: Fetch book if missing on refresh
     useEffect(() => {
         if (book && book.id === id) return;
-        
         const hydrateBook = async () => {
             try {
                 const data = await fetchBookById(id as string);
@@ -47,7 +38,6 @@ export default function PlayerPage() {
                 console.error("Hydration failed:", error);
             }
         };
-
         if (id && !book && user && isPremium) {
             hydrateBook();
         }
@@ -59,11 +49,30 @@ export default function PlayerPage() {
     
     if (!user) return <UserNotLoggedIn />;
 
-    // If logged in but NOT premium, show nothing (the useEffect will redirect them)
     if (!isPremium) return null;
 
-    if (!book) return <div className="loading-state">Fetching book details...</div>;
+    // SKELETON STATE
+    if (!book) {
+        return (
+            <div className={styles.playerPageWrapper}>
+                <div className={styles.settingsBar}>
+                    <Skeleton width="100%" height="40px" borderRadius="4px" />
+                </div>
+                <div className={styles.readerContainer}>
+                    <Skeleton width="70%" height="32px" marginBottom="32px" />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <Skeleton width="100%" height="18px" />
+                        <Skeleton width="100%" height="18px" />
+                        <Skeleton width="95%" height="18px" />
+                        <Skeleton width="100%" height="18px" />
+                        <Skeleton width="40%" height="18px" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
+    // FINAL CONTENT STATE
     return (
         <div className={`${styles.playerPageWrapper} ${isDarkMode ? styles.darkTheme : ""}`}>
             <div className={styles.settingsBar}>

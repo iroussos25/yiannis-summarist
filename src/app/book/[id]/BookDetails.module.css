@@ -141,6 +141,8 @@
   width: 300px;
   flex-shrink: 0;
   position: relative;
+  display: flex;
+  justify-content: flex-end;
 }
 
 
@@ -178,8 +180,8 @@
 .titleBox {
   flex: 1;
   min-width: 0; 
-  /* Fix the line-height so it looks like the sample */
   line-height: 1.4; 
+  overflow: hidden;
 }
 
 .tags {

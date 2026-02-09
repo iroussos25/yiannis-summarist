@@ -5,7 +5,7 @@ import styles from "./Plan.module.css";
 import { FaArrowLeft, FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
 import { RiPlantFill } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { openLoginModal, setPremium } from "../redux/authSlice";
+import { openLoginModal, setAuthState } from "../redux/authSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { doc, setDoc } from "firebase/firestore";
@@ -27,7 +27,11 @@ const PlanPage = () => {
     } 
 
    
-    dispatch(setPremium(true));
+    dispatch(setAuthState({
+      user: user,
+      isPremium: true
+    }
+    ));
     router.push("/success");
 
     try {

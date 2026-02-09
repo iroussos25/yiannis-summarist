@@ -4,6 +4,9 @@
 .sidebar {
     background-color: #f7faf9;
     width: 200px;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    min-width: 200px;
     position: fixed;
     top: 0;
     left: 0;
@@ -140,6 +143,9 @@
     background-size: 200% auto;
     animation: shine 3s linear infinite;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: fit-content;
+    max-width: 170px;
+    margin: 0 auto;
 }
 
 @keyframes shine {
