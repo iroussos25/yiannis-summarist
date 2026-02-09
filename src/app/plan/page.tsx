@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Plan.module.css";
 import { FaArrowLeft, FaChevronDown, FaChevronUp, FaFileAlt, FaHandshake } from "react-icons/fa";
 import { RiPlantFill } from "react-icons/ri";
@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { openLoginModal, setPremium } from "../redux/authSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 
 const PlanPage = () => {
@@ -17,10 +19,30 @@ const PlanPage = () => {
   const router = useRouter();
   const { user } = useAppSelector(state => state.auth);
 
-  const handleSimulatedUpgrade = () => {
+   const handleSimulatedUpgrade = async () => {
+    if (!user) {
+      alert("Please log in to your guest account to see the Premium transition!");
+      dispatch(openLoginModal());
+      return;
+    } 
+
+   
     dispatch(setPremium(true));
     router.push("/success");
+
+    try {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, { 
+        isPremium: true, 
+        subscriptionStatus: 'premium' 
+      }, { merge: true });
+      
+      console.log("Firestore updated successfully in the background!");
+    } catch (e) {
+      console.error("Background Firestore update failed:", e);
+    }
   };
+
   
 
   const handleRealStripePayment = () => { 
@@ -30,7 +52,14 @@ const PlanPage = () => {
         router.push(`/checkout?plan=${selectedPlan}`);
     }
     };
-  
+
+    useEffect(() => {
+      const originalOverflow = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = "visible";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }, []);  
 
   const faqs = [
     {
@@ -48,6 +77,7 @@ const PlanPage = () => {
   ];
 
   return (
+    
     <div className={styles.fullWidthContainer}>
 
     <div className={styles.planContainer}>
@@ -70,6 +100,9 @@ const PlanPage = () => {
         <FaArrowLeft size={20} />
         <span>Back to Home</span>
         </Link>
+
+
+
 <div className={styles.planFeaturesWrapper}>
     <div className={styles.planFeature}>
         <figure className={styles.planFeaturesIcon}>
@@ -95,7 +128,7 @@ const PlanPage = () => {
         <div 
           className={`${styles.planOption} ${selectedPlan === "yearly" ? styles.active : ""}`}
           onClick={() => setSelectedPlan("yearly")}
-        >
+          >
           <div className={styles.radio}></div>
           <div>
             <div style={{ fontWeight: 700 }}>Summarist Premium Yearly</div>
@@ -123,6 +156,8 @@ const PlanPage = () => {
             <div style={{ color: "#6b7280" }}>No free trial, $9.99/month</div>
           </div>
         </div>
+
+        
       </div>
       <div className={styles.ctaWrap}>
       <div className={styles.buttons}>
@@ -132,7 +167,7 @@ const PlanPage = () => {
       <button 
     className={styles.demoButton} 
     onClick={handleSimulatedUpgrade}
-  >
+    >
     Instant Demo: Unlock Premium
   </button>
       </div>
@@ -143,7 +178,7 @@ const PlanPage = () => {
 
       <div className={styles.accordionSection}>
         {faqs.map((faq, index) => (
-            <div key={index} className={styles.accordionItem}>
+          <div key={index} className={styles.accordionItem}>
             <div 
               className={styles.accordionHeader} 
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
@@ -156,8 +191,8 @@ const PlanPage = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
-     </div>
     </div>
 </div>
   );

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { IoClose, IoPlayBackSharp, IoPlayForwardSharp } from "react-icons/io5";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
 import { clearActiveBook, addToFinished } from "@/app/redux/bookSlice"; // Added addToFinished
+import { useRouter, usePathname } from "next/navigation";
 
 const MOCK_AUDIO_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
@@ -14,10 +15,11 @@ export default function AudioPlayer() {
   const book = useAppSelector((state) => state.book.activeBook);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playAnimationRef = useRef<number | null>(null);
-
+  const router = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+  const pathname = usePathname();
 
   const dispatch = useAppDispatch();
 
@@ -45,7 +47,17 @@ export default function AudioPlayer() {
   }, [duration]);
 
   useEffect(() => {
-    const audio = audioRef.current;
+     const audio = audioRef.current;
+    
+    // IF THE BOOK IS CLEARED, KILL THE AUDIO IMMEDIATELY
+    if (!book) {
+      if (audio) {
+        audio.pause();
+        audio.src = ""; // Clear the source so it stops buffering
+      }
+      setIsPlaying(false);
+      return;
+    }
     if (!audio || !book) return;
 
     const targetSrc = book.audioLink || MOCK_AUDIO_URL;
@@ -88,6 +100,26 @@ export default function AudioPlayer() {
   };
 
   if (!book) return null;
+
+  const handleClosePlayer = () => {
+  // 1. Stop the physical audio first
+  if (audioRef.current) {
+    audioRef.current.pause();
+    audioRef.current.src = "";
+  }
+  dispatch(clearActiveBook());
+  setIsPlaying(false);
+  // 2. Clear local animation frames
+  if (playAnimationRef.current) {
+    cancelAnimationFrame(playAnimationRef.current);
+  }
+  // 3. Clear local play state
+  // 4. Finally, tell Redux to forget the book
+  if (pathname.includes('/player')) {
+    router.push('/for-you');
+  }
+};
+
     
   return (
     <div className={styles.audioPlayerWrapper}>
@@ -136,7 +168,7 @@ export default function AudioPlayer() {
             />
             <span className={styles.time}>{formatTime(duration)}</span>
           </div>
-          <button className={styles.closeBtn} onClick={() => dispatch(clearActiveBook())}>
+          <button className={styles.closeBtn} onClick={handleClosePlayer}>
             <IoClose size={24} />
           </button>
         </div>

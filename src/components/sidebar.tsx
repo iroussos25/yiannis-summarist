@@ -10,7 +10,7 @@ import { AiOutlineHome, AiOutlineSearch, AiOutlineSetting } from 'react-icons/ai
 import { FaRegBookmark } from 'react-icons/fa';
 import { RiBallPenLine } from 'react-icons/ri';
 import { FiHelpCircle, FiLogIn, FiLogOut } from 'react-icons/fi';
-import { openLoginModal } from '@/app/redux/authSlice';
+import { clearUser, openLoginModal, setPremium } from '@/app/redux/authSlice';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks';
@@ -37,6 +37,8 @@ export default function Sidebar() {
    const handleAuth = async () => {
         if (user) {
           await signOut(auth);
+          dispatch(setPremium(false));
+          dispatch(clearUser());
           dispatch(clearActiveBook());
         } else {
             dispatch(openLoginModal());
@@ -56,9 +58,9 @@ export default function Sidebar() {
             <div className={sidebarClasses}>
                 <div className={styles.sidebarContent} style={contentPadding}>
 
-                    <div className={styles.sidebarLogo}>
-                        <Image src="/logo.png" alt="logo" width={160} height={40} />
-                    </div>
+                    <Link href={user ? "/for-you" : "/"} className={styles.sidebarLogo}>
+                     <Image src="/logo.png" alt="logo" width={160} height={40} />
+                    </Link>
                     <div className={styles.sidebarWrapper}>
                         <div className={styles.sidebarTop}>
                             <Link href="/for-you" className={styles.sidebarLinkWrapper}>

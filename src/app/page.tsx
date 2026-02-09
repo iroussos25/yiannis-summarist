@@ -8,11 +8,12 @@ import { RiLeafLine } from 'react-icons/ri';
 import landing from "../../public/landing.png"
 import Image from 'next/image';
 import { openLoginModal } from './redux/authSlice';
-import { useAppDispatch } from './redux/hooks';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
 
 export default function Home() {
 
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     
@@ -212,7 +213,7 @@ export default function Home() {
             </div>
           </div>
           <div className="reviews__btn--wrapper">
-            <button className="btn home__cta--btn" onClick={() => dispatch(openLoginModal())}>Login</button>
+            <button className="btn home__cta--btn" onClick={() => dispatch(openLoginModal())}>{user ? "Logout" : "Login"}</button>
           </div>
         </div>
       </div>

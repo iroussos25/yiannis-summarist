@@ -15,6 +15,7 @@ import { useAppDispatch } from "@/app/redux/hooks";
 import { db } from "@/lib/firebase"; 
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { setPremium } from "@/app/redux/authSlice";
+import { useRouter } from "next/navigation";
 export default function Authenticator() {
 
 const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [loading, setLoading] = useState(false);
 const [isLoginMode, setIsLoginMode] = useState(true);
+const router = useRouter();
 
 const handleForgotPassword = async () => {
     if (!email) {
@@ -40,29 +42,16 @@ const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault(); 
     setLoading(true);
     try {
-        let userCredential;
         if (isLoginMode) {
-         userCredential = await signInWithEmailAndPassword( auth, email, password);
-   
-            const user = userCredential.user;
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-   
-              if (userSnap.exists()) {
-                const userData = userSnap.data();
-                if (userData.isPremium || userData.subscriptionStatus === 'premium') {
-                    dispatch(setPremium(true));
-                }
-            }
-
+            await signInWithEmailAndPassword(auth, email, password);
         } else {
-        await createUserWithEmailAndPassword(auth, email, password);
-        console.log("Account Created Successfully!")
-    }
+            await createUserWithEmailAndPassword(auth, email, password);
+        }
+
         dispatch(closeLoginModal());
-        console.log("Success!")
+        router.push("/for-you"); 
     } catch (error: any) {
-        console.error((isLoginMode ? "Login failed:" : "Signup failed:") + error.message);
+        alert((isLoginMode ? "Login failed: " : "Signup failed: ") + error.message);
     } finally {
         setLoading(false); 
     }
@@ -72,15 +61,9 @@ const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     setLoading(true);
     try {
-        const result = await signInWithPopup(auth, provider);
-        
-        const userRef = doc(db, "users", result.user.uid);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists() && userSnap.data().isPremium) {
-            dispatch(setPremium(true));
-        }
-
+        await signInWithPopup(auth, provider);
         dispatch(closeLoginModal());
+        router.push("/for-you"); 
     } catch (error: any) {
         console.error("Google Login Error", error.message);
     } finally {
@@ -88,29 +71,20 @@ const handleGoogleLogin = async () => {
     }
 };
 
-
 const handleGuestLogin = async () => {
     setLoading(true);
     try {
-        const result = await signInAnonymously(auth);
-        const user = result.user;
-
-        const userRef = doc(db, "users", user.uid);
-        await setDoc(userRef, {
-            isPremium: true,
-            subscriptionStatus: "premium",
-            email: "Guest User"
-        });
-
-        dispatch(setPremium(true)); 
+        await signInAnonymously(auth);
+        
         dispatch(closeLoginModal());
+        router.push("/for-you"); 
     } catch (error: any) {
-        console.error("Guest setup failed:", error.message);
-        dispatch(closeLoginModal());
+        console.error("Guest login failed:", error.message);
     } finally {
         setLoading(false);
     }
 };
+
 
 
 

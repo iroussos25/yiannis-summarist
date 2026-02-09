@@ -19,7 +19,8 @@ export default function BookDetailsPage() {
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
-  const { user, isPremium } = useAppSelector((state) => state.auth);
+  const user = useAppSelector((state) => state.auth.user);
+  const isPremium = useAppSelector((state) => state.auth.isPremium);
   const favorites = useAppSelector((state) => state.favorites.items);
   const isFavorited = favorites.some((fav) => fav.id === book?.id)
   const showPremiumText = book?.subscriptionRequired && !isPremium;
@@ -47,18 +48,27 @@ export default function BookDetailsPage() {
 }
 
   const handleStartListening = () => {
+    // 1. Guard: No User
     if (!user) {
-      dispatch(openLoginModal());
-    } else if (book?.subscriptionRequired && !isPremium) {
-      router.push('/plan');
-    } else {
-     if (book)
-        dispatch(setActiveBook(book));
-        setTimeout(() => {
-            router.push(`/player/${book?.id}?type=audio`)
-        }, 10);
+        dispatch(openLoginModal());
+        return;
     }
-  };
+
+    // 2. Guard: No Premium
+    // We check the specific isPremium selector we just fixed
+    if (!isPremium) {
+        console.log("Paywall triggered: User is not premium");
+        router.push('/plan');
+        return;
+    }
+
+    // 3. Success: Start the Player
+    if (book) {
+        dispatch(setActiveBook(book));
+        router.push(`/player/${book.id}?type=audio`);
+    }
+};
+
 
   useEffect(() => {
     if (id) {
@@ -69,7 +79,6 @@ export default function BookDetailsPage() {
     }
   }, [id]);
 
-  // --- NEW REUSABLE SKELETON STATE ---
   if (loading) {
     return (
       <div className={styles.wrapper}>
@@ -78,7 +87,6 @@ export default function BookDetailsPage() {
             <div className={styles.innerContent}>
               <div className={styles.titleBox}>
                 <div className={styles.infoLeft}>
-                  {/* Title, Author, Subtitle Skeletons */}
                   <Skeleton width="80%" height="40px" marginBottom="12px" />
                   <Skeleton width="40%" height="20px" marginBottom="12px" />
                   <Skeleton width="60%" height="24px" marginBottom="32px" />
@@ -109,7 +117,6 @@ export default function BookDetailsPage() {
 
               <div className={styles.infoRight}>
                 <div className={styles.imageContainer}>
-                  {/* Book Cover Skeleton */}
                   <Skeleton width="300px" height="450px" borderRadius="4px" />
                 </div>
               </div>
@@ -127,7 +134,6 @@ export default function BookDetailsPage() {
       <div className={styles.mainContent}>
         <main className={styles.container}>
           <div className={styles.innerContent}>
-            {/* LEFT COLUMN: TEXT INFO */}
             <div className={styles.titleBox}>
 
             <div className={styles.infoLeft}>
@@ -136,7 +142,6 @@ export default function BookDetailsPage() {
               <h2 className={styles.subTitle}>{book.subTitle}</h2>
             </div>
               
-              {/* STATS BAR */}
               <div className={styles.statsRow}>
                 <div className={styles.stat}><AiOutlineStar /> {book.rating} ({book.totalRating} ratings)</div>
                 <div className={styles.stat}><AiOutlineClockCircle /> {"4:32"} </div>
@@ -144,7 +149,6 @@ export default function BookDetailsPage() {
                 <div className={styles.stat}><HiOutlineLightBulb /> {book.keyIdeas} Key ideas</div>
               </div>
 
-              {/* READ & LISTEN BUTTONS */}
               <div className={styles.buttonGroup}>
                 <button className={styles.readBtn} onClick={handleStartReading}>
                   <HiOutlineBookOpen /> Read
