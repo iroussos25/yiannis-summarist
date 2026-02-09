@@ -23,12 +23,17 @@ export default function PlayerPage() {
         const hydrateBook = async () => {
             try {
                 const data = await fetchBookById(id as string);
-                dispatch(setActiveBook(data));
+                if (data) {
+                    dispatch(setActiveBook(data));
+                }
             } catch (error) {
-                console.error("Could not recover book data after refresh:", error)
+                console.error("Could not recover book data:", error);
             }
         };
-        if (id) hydrateBook();
+
+        if (id && !book) {
+            hydrateBook();
+        }
     }, [id, book, dispatch]);
 
     if (!book) return <div>No active book found. Please select a book first.</div>

@@ -58,7 +58,6 @@ export default function AuthStateListener() {
         // 3. Logout Cleanup
         dispatch(clearUser());
         dispatch(setPremium(false));
-        dispatch(setFavorites([]));
         dispatch(setFinishedBooks([]));
         dispatch(clearActiveBook());
       }
