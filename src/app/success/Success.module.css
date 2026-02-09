@@ -43,6 +43,7 @@
 }
 
 .button {
+  margin-top: 24px;
   background-color: #2bd880;
   color: #032b41;
   padding: 14px 32px;
