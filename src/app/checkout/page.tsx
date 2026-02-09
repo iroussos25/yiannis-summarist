@@ -1,4 +1,6 @@
 "use client"; 
+export const dynamic = "force-dynamic";
+
 import  { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js"; 
