@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -53,13 +53,13 @@ export default function CheckoutClient() {
       background: '#f1f6f4'
     }}>
 
-      {clientSecret ? (
         <Elements options={options} stripe={stripePromise}>
+      {clientSecret ? (
           <CheckoutForm />
+        ) : (
+            <div className="spinner" style={{ margin: 'auto' }}></div>
+        )}
         </Elements>
-      ) : (
-        <div className="spinner" style={{ margin: 'auto' }}></div>
-      )}
     </div>
   );
 }
