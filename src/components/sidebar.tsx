@@ -1,5 +1,4 @@
 
-import styles from './Sidebar.module.css'
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -14,6 +13,7 @@ import { auth } from '@/lib/firebase';
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks';
 import { clearActiveBook } from '@/app/redux/bookSlice';
 import { BsStars } from 'react-icons/bs';
+import styles from './NavSide.module.css'
 
 
 export default function Sidebar() {
