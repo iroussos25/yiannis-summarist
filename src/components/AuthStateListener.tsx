@@ -26,7 +26,7 @@ export default function AuthStateListener() {
         dispatch(closeLoginModal());
         if (pathname === '/') router.push('/for-you');
 
-        // 2. Background Sync (Silent Observer Strategy)
+        // 2. Background Sync (One-Retry Strategy)
         const syncData = async (canRetry: boolean) => {
           try {
             const userRef = doc(db, "users", user.uid);
@@ -34,29 +34,23 @@ export default function AuthStateListener() {
 
             if (userSnap.exists()) {
               const data = userSnap.data();
-              const isDatabasePremium = !!(data.isPremium || data.subscriptionStatus === 'premium');
-              
-              // Only update if the database has a definitive status
-              // This prevents the 'flicker' from the Authenticator's state
-              if (isDatabasePremium) {
-                dispatch(setPremium(true));
-              } else {
-                dispatch(setPremium(false));
-              }
+              dispatch(setPremium(data.isPremium || data.subscriptionStatus === 'premium'));
+            } 
+            
+            
+            else {
+              dispatch(setPremium(false));
             }
 
             // Sync Library
             const favsSnap = await getDocs(collection(db, "users", user.uid, "favorites"));
             dispatch(setFavorites(favsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Book[]));
-            
           } catch (error: any) {
-            // If offline, retry once but DON'T clear the premium state 
-            // We trust the state set by the Authenticator during the wait
             if (canRetry && error.message.includes("offline")) {
-              console.log("DORI DEBUG: Offline race detected. Retrying sync...");
+              console.log("DORI DEBUG: Offline race detected. Retrying once...");
               setTimeout(() => syncData(false), 1000);
             } else {
-              console.warn("DORI DEBUG: Background sync failed/offline. Preserving current state.");
+              console.warn("DORI DEBUG: Background sync skipped or offline.");
             }
           }
         };
@@ -67,15 +61,12 @@ export default function AuthStateListener() {
         // 3. Logout Cleanup
         dispatch(clearUser());
         dispatch(setPremium(false));
-        dispatch(setFavorites([]));
-        dispatch(setFinishedBooks([]));
         dispatch(clearActiveBook());
       }
     });
 
     return () => unsubscribe();
-  }, [dispatch, router, pathname]); // Added pathname to dependencies to ensure correct redirects
-
+  }, [dispatch, router]); 
 
   // 4. THE SAFETY GUARD
   useEffect(() => {
