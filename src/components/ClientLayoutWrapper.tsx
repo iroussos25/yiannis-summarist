@@ -34,15 +34,17 @@ export default function ClientLayoutWrapper({
       
       {hasSidebar && <Sidebar />} 
       
-      {isAppRoute && !isPlanPage && <Sidebar />}
+      {/* {isAppRoute && !isPlanPage && <Sidebar />} */}
 
         <div 
       id="main-content-area" 
+      key={pathname}
+      className={shouldShiftContent ? "content-shifted" : "content-full"}
       style={{ 
         flex: 1,
         marginLeft: shouldShiftContent ? '200px' : '0', 
         width: shouldShiftContent ? 'calc(100% - 200px)' : '100%',
-        transition: 'margin 0.3s ease',
+        transition: 'margin 0.3s ease, background-color 0.3s ease',
         display: 'flex',
         flexDirection: 'column'
       }}
