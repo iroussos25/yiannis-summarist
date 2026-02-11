@@ -41,7 +41,6 @@ const PlanPage = () => {
         subscriptionStatus: 'premium' 
       }, { merge: true });
       
-      console.log("Firestore updated successfully in the background!");
     } catch (e) {
       console.error("Background Firestore update failed:", e);
     }

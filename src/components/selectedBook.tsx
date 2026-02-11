@@ -4,13 +4,24 @@ import Image from "next/image";
 import styles from "./SelectedBook.module.css";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { Book } from "@/lib/api";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { setActiveBook } from "@/app/redux/bookSlice";
 import Link from "next/link";
 import { MdAccessTime } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 export default function SelectedBook({ book }: { book: Book }) {
   const dispatch = useAppDispatch();
+      const router = useRouter();
+   const { user, isLoading: authLoading } = useAppSelector((state) => state.auth);
+      
+
+   const handleListenNow = (book: Book | null) => {
+    if (!book) return;
+  
+    dispatch(setActiveBook(book));
+    router.push(`/player/${book.id}?type=audio`);
+  };
 
   return (
     <Link href={`/book/${book.id}`} className={styles.selectedBookCard}>
@@ -40,7 +51,7 @@ export default function SelectedBook({ book }: { book: Book }) {
               className={styles.playContainer} 
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(setActiveBook(book));
+                handleListenNow(book);
               }}
             >
               <AiFillPlayCircle size={40} className={styles.playIcon} />

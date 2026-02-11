@@ -12,7 +12,6 @@ export async function GET(request: Request) {
   try {
     const url = `https://us-central1-summaristt.cloudfunctions.net/getBooks?search=${encodeURIComponent(search)}`;
     
-    console.log("Middleman fetching from:", url); 
     const response = await axios.get(url);
     
     return NextResponse.json(response.data);

@@ -69,17 +69,14 @@ const dbFinished = finishedSnap.docs.map(d => ({ id: d.id, ...d.data() })) as Bo
           if (dbFavs.length > 0) {
     dispatch(setFavorites(dbFavs));
 } else {
-    console.log("DORI DEBUG: DB Favorites empty, preserving local items.");
 }
 
 if (dbFinished.length > 0) {
     dispatch(setFinishedBooks(dbFinished));
 } else {
-    console.log("DORI DEBUG: DB Finished empty, preserving local progress.");
 }
             
             hasSynced.current = true;
-            console.log("DORI DEBUG: Background sync complete.");
 
           } catch (error) {
             console.warn("DORI DEBUG: Sync stalled, preserving current state.");

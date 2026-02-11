@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Book, fetchBookById } from '@/lib/api';
 import styles from './BookDetails.module.css';
@@ -23,8 +23,9 @@ export default function BookDetailsPage() {
   const isPremium = useAppSelector((state) => state.auth.isPremium);
   const favorites = useAppSelector((state) => state.favorites.items);
   const isFavorited = favorites.some((fav) => fav.id === book?.id)
-  const showPremiumText = book?.subscriptionRequired && !isPremium;
-
+  const premiumBook = book?.subscriptionRequired
+  const showPremiumText = premiumBook && !isPremium;
+  
   const handleToggleFavorite = () => {
     if (!user) {
       dispatch(openLoginModal());
@@ -34,35 +35,39 @@ export default function BookDetailsPage() {
   };
   
   const handleStartReading = () => {
+  if (!book) return;
+
+  if (premiumBook) {
     if (!user) {
       dispatch(openLoginModal());
-   } else {
-    if (book?.subscriptionRequired && !isPremium) {
-      router.push('/plan');
-    } else {
-      if (book) 
-        dispatch(setActiveBook(book));
-        router.push(`/player/${book?.id}`);
+      return;
     }
-  };
-}
+    if (!isPremium) {
+      router.push('/plan');
+      return;
+    }
+  }
+
+  dispatch(setActiveBook(book));
+  router.push(`/player/${book.id}`);
+};
 
   const handleStartListening = () => {
+  if (!book) return;
+
+  if (premiumBook) {
     if (!user) {
-        dispatch(openLoginModal());
-        return;
+      dispatch(openLoginModal());
+      return;
     }
-
     if (!isPremium) {
-        console.log("Paywall triggered: User is not premium");
-        router.push('/plan');
-        return;
+      router.push('/plan');
+      return;
     }
+  }
 
-    if (book) {
-        dispatch(setActiveBook(book));
-        router.push(`/player/${book.id}?type=audio`);
-    }
+  dispatch(setActiveBook(book));
+  router.push(`/player/${book.id}?type=audio`);
 };
 
 

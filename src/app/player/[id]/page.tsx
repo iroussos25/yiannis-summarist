@@ -5,9 +5,8 @@ import styles from './Player.module.css';
 import { useEffect, useState } from "react";
 import { fetchBookById } from "@/lib/api";
 import { setActiveBook, clearActiveBook } from "@/app/redux/bookSlice";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import AudioPlayer from "@/components/AudioPlayer";
-import UserNotLoggedIn from "@/components/UserNotLoggedIn";
 import Skeleton from "@/components/skeleton";
 
 export default function PlayerPage() {
@@ -16,16 +15,23 @@ export default function PlayerPage() {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const SearchParams = useSearchParams();
+    const autoPlayAudio = SearchParams.get('type') === 'audio';
 
     const [fontSize, setFontSize] = useState(16);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
-    useEffect(() => {
-        if (!isLoading && user && !isPremium) {
-            dispatch(clearActiveBook()); 
-            router.push('/plan');        
+   useEffect(() => {
+    if (!isLoading && book && book.subscriptionRequired) {
+        if (user && !isPremium) {
+            const timeout = setTimeout(() => {
+                dispatch(clearActiveBook()); 
+                router.push('/plan');
+            }, 100); 
+            return () => clearTimeout(timeout);
         }
-    }, [isPremium, user, isLoading, dispatch, router]);
+    }
+}, [isPremium, user, isLoading, book, router, dispatch]);
 
     useEffect(() => {
         if (book && book.id === id) return;
@@ -37,17 +43,15 @@ export default function PlayerPage() {
                 console.error("Hydration failed:", error);
             }
         };
-        if (id && !book && user && isPremium) {
+        if (id && (!book || book.id !== id)) {
             hydrateBook();
         }
-    }, [id, book, user, isPremium, dispatch]);
+    }, [id, book, dispatch]);
 
 
     if (isLoading) return <div className="loading-state">Loading...</div>;
     
-    if (!user) return <UserNotLoggedIn />;
 
-    if (!isPremium) return null;
 
     if (!book) {
         return (
@@ -91,7 +95,7 @@ export default function PlayerPage() {
                     {book.summary}
                 </div>
             </div>
-            <AudioPlayer />
+            <AudioPlayer autoPlay={autoPlayAudio} />
         </div>
     );
 }

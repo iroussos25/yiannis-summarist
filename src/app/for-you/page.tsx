@@ -7,15 +7,17 @@ import BookCard from "@/components/bookCard";
 import SelectedBookSkeleton from "@/components/selectedBookSkeleton";
 import BookCardSkeleton from "@/components/bookCardSkeleton";
 import UserNotLoggedIn from "@/components/UserNotLoggedIn"; 
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../redux/hooks";
 
 export default function ForYouPage() {
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [loading, setLoading] = useState(true);
     const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
     const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
-    const dispatch = useAppDispatch();
+    // 
     
+   
+
     const { user, isLoading: authLoading } = useAppSelector((state) => state.auth);
 
     useEffect(() => {

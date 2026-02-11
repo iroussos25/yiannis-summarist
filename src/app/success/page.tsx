@@ -24,7 +24,6 @@ useEffect(() => {
       hasRun.current = true; 
       
       try {
-        console.log("DORI DEBUG: Single-fire upgrade starting...");
         const userRef = doc(db, "users", user.uid);
         
         await updateDoc(userRef, {
@@ -32,7 +31,6 @@ useEffect(() => {
           isPremium: true
         });
 
-        console.log("Check 3: Firebase Update Successful!");
         dispatch(setAuthState({ 
           user: user, 
           isPremium: true 

@@ -11,7 +11,10 @@ import { useRouter, usePathname } from "next/navigation";
 
 const MOCK_AUDIO_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
-export default function AudioPlayer() {
+interface AudioPlayerProps {
+  autoPlay?: boolean;
+}
+export default function AudioPlayer({ autoPlay }: AudioPlayerProps) {
   const book = useAppSelector((state) => state.book.activeBook);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playAnimationRef = useRef<number | null>(null);
@@ -22,6 +25,7 @@ export default function AudioPlayer() {
   const pathname = usePathname();
 
   const dispatch = useAppDispatch();
+
 
   const handleOnEnded = () => {
     setIsPlaying(false);
