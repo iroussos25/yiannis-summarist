@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Summarist: Audiobook SaaS Platform
 
-## Getting Started
+A full-stack SaaS audiobook platform built during my software engineering internship at Summarist (Dec 2025 - Jan 2026). Features tiered Stripe payment integration, Firebase authentication, and server-side rendered content delivery.
 
-First, run the development server:
+**[Live Demo](https://yiannis-summarist.vercel.app/)**
 
+---
+
+## What it does
+
+Users can browse audiobook summaries, sign up with email or Google auth, subscribe to a paid tier via Stripe, and access premium content. The platform handles the full SaaS lifecycle: registration, authentication, payment processing, content gating, and account management.
+
+## What I built
+
+- **Authentication:** Firebase Auth with email/password and Google OAuth sign-in. Protected routes redirect unauthenticated users.
+- **Payments:** Manual Stripe API integration (not a pre-built checkout widget). Handles subscription creation, tier management, and webhook processing for payment events.
+- **Content delivery:** Multiple external APIs for audiobook metadata and audio content. Optimized asset loading and SSR for fast initial page renders.
+- **Frontend:** Responsive UI built with Next.js, TypeScript, and CSS. Skeleton loading states for async content.
+
+## Key technical details
+
+- Built without AI assistance as a fundamentals-focused exercise in manual debugging and system architecture
+- Stripe API integration handling subscription lifecycles (create, upgrade, cancel)
+- Firebase Firestore for user data persistence and content bookmarking
+- Server-side rendering for SEO and performance
+- Multiple API integrations for dynamic audiobook content
+
+## Run locally
 ```bash
+git clone https://github.com/iroussos25/yiannis-summarist.git
+cd yiannis-summarist
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add Firebase config, Stripe keys, and API keys
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+TypeScript, Next.js, React, Firebase (Auth, Firestore), Stripe API, CSS, Vercel
 
-## Learn More
+## Context
 
-To learn more about Next.js, take a look at the following resources:
+This was my first internship project (Dec 2025 - Jan 2026). The core requirement was building a functional SaaS platform with real payment processing. I intentionally built this without AI coding assistance to strengthen my debugging fundamentals and manual problem-solving.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Giannis Roussos - [giannisroussos.com](https://giannisroussos.com) | [LinkedIn](https://linkedin.com/in/giannisr) | grcodes@outlook.com
