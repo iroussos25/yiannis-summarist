@@ -44,11 +44,6 @@ export default function CheckoutClient() {
 
   }, [plan, user?.uid]);
 
-  const options = {
-    clientSecret,
-    appearance: { theme: 'stripe' as const },
-  };
-
   return (
     <div style={{
       display: 'flex',
@@ -57,14 +52,19 @@ export default function CheckoutClient() {
       minHeight: '100vh',
       background: '#f1f6f4'
     }}>
-
-        <Elements options={options} stripe={stripePromise}>
       {clientSecret ? (
+        <Elements
+          options={{
+            clientSecret,
+            appearance: { theme: 'stripe' as const },
+          }}
+          stripe={stripePromise}
+        >
           <CheckoutForm />
-        ) : (
-            <div className="spinner" style={{ margin: 'auto' }}></div>
-        )}
         </Elements>
+      ) : (
+        <div className="spinner" style={{ margin: 'auto' }}></div>
+      )}
     </div>
   );
 }

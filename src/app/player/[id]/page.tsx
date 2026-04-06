@@ -22,6 +22,11 @@ export default function PlayerPage() {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
    useEffect(() => {
+    if (!isLoading && !user) {
+        dispatch(clearActiveBook());
+        router.push('/for-you');
+        return;
+    }
     if (!isLoading && book && book.subscriptionRequired) {
         if (user && !isPremium) {
             const timeout = setTimeout(() => {

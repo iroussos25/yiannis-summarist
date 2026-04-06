@@ -6,7 +6,7 @@ import styles from "./AudioPlayer.module.css";
 import Image from "next/image";
 import { IoClose, IoPlayBackSharp, IoPlayForwardSharp } from "react-icons/io5";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
-import { clearActiveBook, addToFinished } from "@/app/redux/bookSlice"; // Added addToFinished
+import { clearActiveBook, addToFinished } from "@/app/redux/bookSlice";
 import { useRouter, usePathname } from "next/navigation";
 
 const MOCK_AUDIO_URL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
@@ -16,6 +16,7 @@ interface AudioPlayerProps {
 }
 export default function AudioPlayer({ autoPlay }: AudioPlayerProps) {
   const book = useAppSelector((state) => state.book.activeBook);
+  const user = useAppSelector((state) => state.auth.user);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playAnimationRef = useRef<number | null>(null);
   const router = useRouter();
@@ -26,12 +27,25 @@ export default function AudioPlayer({ autoPlay }: AudioPlayerProps) {
 
   const dispatch = useAppDispatch();
 
+  // Stop playback immediately when user logs out
+  useEffect(() => {
+    if (!user) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+      if (playAnimationRef.current) {
+        cancelAnimationFrame(playAnimationRef.current);
+      }
+      setIsPlaying(false);
+    }
+  }, [user]);
+
 
   const handleOnEnded = () => {
     setIsPlaying(false);
     if (book) {
       dispatch(addToFinished(book));
-      console.log(`Successfully added to finished: ${book.title}`);
     }
   };
 

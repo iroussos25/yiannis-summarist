@@ -12,8 +12,6 @@ import { setAuthState } from "../redux/authSlice";
 export default function SuccessPage() {
    const dispatch = useAppDispatch();
    const user = useAppSelector((state) => state.auth.user);
-   const hasUpgraded = useRef(false);
-
 const hasRun = useRef(false);
 
 useEffect(() => {

@@ -56,17 +56,27 @@ export default function Authenticator() {
                 user = userCredential.user;
             }
 
-            const isPremium = await fetchPremiumStatus(user.uid);
-
+            // Auth succeeded — close modal and navigate immediately
             dispatch(setAuthState({ 
                 user: { uid: user.uid, email: user.email }, 
-                isPremium 
+                isPremium: false 
             }));
-
             dispatch(closeLoginModal());
             router.push("/for-you");
+
+            // Premium status is best-effort; AuthStateListener will sync it
+            const isPremium = await fetchPremiumStatus(user.uid);
+            if (isPremium) {
+                dispatch(setAuthState({ 
+                    user: { uid: user.uid, email: user.email }, 
+                    isPremium: true 
+                }));
+            }
         } catch (error: any) {
-            alert((isLoginMode ? "Login failed: " : "Signup failed: ") + error.message);
+            // Only alert if auth itself failed (modal still open)
+            if (!auth.currentUser) {
+                alert((isLoginMode ? "Login failed: " : "Signup failed: ") + error.message);
+            }
         } finally {
             setLoading(false);
         }
@@ -77,17 +87,27 @@ export default function Authenticator() {
         setLoading(true);
         try {
             const result = await signInWithPopup(auth, provider);
-            const isPremium = await fetchPremiumStatus(result.user.uid);
 
+            // Auth succeeded — close modal and navigate immediately
             dispatch(setAuthState({ 
                 user: { uid: result.user.uid, email: result.user.email }, 
-                isPremium 
+                isPremium: false 
             }));
-
             dispatch(closeLoginModal());
             router.push("/for-you");
+
+            // Premium status is best-effort; AuthStateListener will sync it
+            const isPremium = await fetchPremiumStatus(result.user.uid);
+            if (isPremium) {
+                dispatch(setAuthState({ 
+                    user: { uid: result.user.uid, email: result.user.email }, 
+                    isPremium: true 
+                }));
+            }
         } catch (error: any) {
-            console.error("Google Login Error", error.message);
+            if (!auth.currentUser) {
+                console.error("Google Login Error", error.message);
+            }
         } finally {
             setLoading(false);
         }

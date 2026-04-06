@@ -19,7 +19,7 @@ export default function ClientLayoutWrapper({
     const pathname = usePathname();
     const isAppRoute = pathname !== '/';
     const isPlanPage = pathname === '/plan';
-    const isSuccessPage = pathname === '/success;'
+    const isSuccessPage = pathname === '/success'
     const shouldShiftContent = isAppRoute && !isPlanPage && !isSuccessPage;
    
     const isLandingPage = pathname === '/';

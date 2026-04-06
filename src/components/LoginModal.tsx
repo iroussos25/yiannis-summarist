@@ -4,12 +4,6 @@ import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import Auth from "./auth";
 import { closeLoginModal } from "@/app/redux/authSlice";
 
-interface LoginModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-
-}
-
 export default function LoginModal() {
     const isOpen = useAppSelector((state) => state.auth.isModalOpen);
     const dispatch = useAppDispatch();
