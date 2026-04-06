@@ -21,7 +21,15 @@ export default function AuthStateListener() {
   pathnameRef.current = pathname;
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (!auth || !db) {
+      console.error("Firebase auth/firestore is not initialized");
+      return;
+    }
+
+    const authClient = auth;
+    const dbClient = db;
+
+    const unsubscribe = onAuthStateChanged(authClient, async (user) => {
       if (user) {
         if (hasSynced.current) {
           return;
@@ -38,11 +46,11 @@ export default function AuthStateListener() {
         }
 
         try {
-          const userRef = doc(db, "users", user.uid);
+          const userRef = doc(dbClient, "users", user.uid);
           const [userSnap, favsSnap, finishedSnap] = await Promise.all([
             getDoc(userRef),
-            getDocs(collection(db, "users", user.uid, "favorites")),
-            getDocs(collection(db, "users", user.uid, "finishedBooks"))
+            getDocs(collection(dbClient, "users", user.uid, "favorites")),
+            getDocs(collection(dbClient, "users", user.uid, "finishedBooks"))
           ]);
 
           if (userSnap.exists()) {

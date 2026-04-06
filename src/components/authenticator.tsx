@@ -30,6 +30,10 @@ export default function Authenticator() {
     const [isLoginMode, setIsLoginMode] = useState(true);
 
     const fetchPremiumStatus = async (uid: string) => {
+        if (!db) {
+            return false;
+        }
+
         try {
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
@@ -45,6 +49,11 @@ export default function Authenticator() {
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!auth) {
+            alert("Authentication is temporarily unavailable.");
+            return;
+        }
+
         setLoading(true);
         try {
             let user;
@@ -84,6 +93,11 @@ export default function Authenticator() {
 
     const handleGoogleLogin = async () => {
         const provider = new GoogleAuthProvider();
+        if (!auth) {
+            alert("Authentication is temporarily unavailable.");
+            return;
+        }
+
         setLoading(true);
         try {
             const result = await signInWithPopup(auth, provider);
@@ -114,6 +128,11 @@ export default function Authenticator() {
     };
 
     const handleGuestLogin = async () => {
+        if (!auth) {
+            alert("Authentication is temporarily unavailable.");
+            return;
+        }
+
         setLoading(true);
         try {
             const result = await signInAnonymously(auth);
@@ -134,6 +153,11 @@ export default function Authenticator() {
 
     const handleForgotPassword = async () => {
         if (!email) return alert("Please enter your email address.");
+        if (!auth) {
+            alert("Authentication is temporarily unavailable.");
+            return;
+        }
+
         try {
             await sendPasswordResetEmail(auth, email);
             alert("A password reset email has been sent to " + email);

@@ -16,12 +16,27 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID 
 };
 
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+const isBrowser = typeof window !== "undefined";
+const hasFirebaseConfig = Boolean(
+  firebaseConfig.apiKey &&
+    firebaseConfig.authDomain &&
+    firebaseConfig.projectId &&
+    firebaseConfig.appId
+);
 
-export const auth = getAuth(app);
+const app =
+  isBrowser && hasFirebaseConfig
+    ? getApps().length > 0
+      ? getApp()
+      : initializeApp(firebaseConfig)
+    : null;
 
-export const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({
-    tabManager: persistentMultipleTabManager()
-  })
-});
+export const auth = app ? getAuth(app) : null;
+
+export const db = app
+  ? initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentMultipleTabManager(),
+      }),
+    })
+  : null;

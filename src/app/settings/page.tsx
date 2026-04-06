@@ -14,6 +14,11 @@ export default function SettingsPage() {
   const router = useRouter();
 
   const handleLogout = async () => {
+    if (!auth) {
+      console.error("Firebase auth is not initialized");
+      return;
+    }
+
     try {
       await signOut(auth);
       dispatch(clearUser());

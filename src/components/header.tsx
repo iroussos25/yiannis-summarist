@@ -13,6 +13,11 @@ export default function Header() {
     const user = useAppSelector((state) => state.auth.user);
     
     const handleLogout = async () => {
+      if (!auth) {
+        console.error("Firebase auth is not initialized");
+        return;
+      }
+
         try {
             await signOut(auth);
         } catch (error) {

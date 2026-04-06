@@ -35,6 +35,11 @@ const PlanPage = () => {
     router.push("/success");
 
     try {
+      if (!db) {
+        console.error("Firestore is not initialized");
+        return;
+      }
+
       const userRef = doc(db, "users", user.uid);
       await setDoc(userRef, { 
         isPremium: true, 

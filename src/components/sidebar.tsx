@@ -35,6 +35,11 @@ export default function Sidebar() {
 
    const handleAuth = async () => {
         if (user) {
+                    if (!auth) {
+                        console.error("Firebase auth is not initialized");
+                        return;
+                    }
+
           await signOut(auth);
           dispatch(clearUser());
           dispatch(clearActiveBook());
