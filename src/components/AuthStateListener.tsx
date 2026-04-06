@@ -5,20 +5,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore'; 
 import { useAppDispatch } from '@/app/redux/hooks';
-import { clearUser, closeLoginModal, setAuthState } from '@/app/redux/authSlice';
+import { clearUser, setAuthState } from '@/app/redux/authSlice';
 import { setFavorites } from '@/app/redux/favoritesSlice';
 import { clearActiveBook, setFinishedBooks } from '@/app/redux/bookSlice';
-import { usePathname, useRouter } from 'next/navigation';
+
 import { Book } from '@/lib/api';
 
 export default function AuthStateListener() {
   const dispatch = useAppDispatch();
-  const router = useRouter();
-  const pathname = usePathname();
   
   const hasSynced = useRef(false);
-  const pathnameRef = useRef(pathname);
-  pathnameRef.current = pathname;
 
   useEffect(() => {
     if (!auth || !db) {
@@ -39,11 +35,6 @@ export default function AuthStateListener() {
           user: { uid: user.uid, email: user.email }, 
           isPremium: false 
         }));
-
-        if (pathnameRef.current === '/') {
-          router.push('/for-you');
-          dispatch(closeLoginModal());
-        }
 
         try {
           const userRef = doc(dbClient, "users", user.uid);
@@ -88,7 +79,7 @@ export default function AuthStateListener() {
     });
 
     return () => unsubscribe();
-  }, [dispatch, router]);
+  }, [dispatch]);
 
   return null;
 }
